@@ -1,0 +1,76 @@
+CREATE TABLE readers (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(255) NOT NULL,
+    password TEXT NOT NULL,
+    is_blocked BOOLEAN NOT NULL,
+    email VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE roles (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE readers_roles (
+    id SERIAL PRIMARY KEY,
+    reader_id INTEGER REFERENCES readers(id),
+    role_id INTEGER REFERENCES roles(id)
+);
+
+CREATE TABLE message (
+    id SERIAL PRIMARY KEY,
+    message TEXT,
+    reader_id INTEGER REFERENCES readers(id)
+);
+
+CREATE TABLE books (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    photo VARCHAR(255),
+    publication_date DATE,
+    description TEXT -- Додано поле "description" типу TEXT.
+);
+
+CREATE TABLE books_count (
+    book_id INTEGER REFERENCES books(id),
+    count INTEGER -- Поле "count" змінено на тип INTEGER.
+);
+
+CREATE TABLE authors (
+    id SERIAL PRIMARY KEY,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE authors_books (
+    id SERIAL PRIMARY KEY,
+    book_id INTEGER REFERENCES books(id),
+    author_id INTEGER REFERENCES authors(id)
+);
+
+CREATE TABLE orders (
+    id SERIAL PRIMARY KEY,
+    book_id INTEGER REFERENCES books(id),
+    reader_id INTEGER REFERENCES readers(id),
+    order_date DATE,
+    return_date DATE,
+    is_returned BOOLEAN
+);
+
+CREATE TABLE fines_amount (
+    id SERIAL PRIMARY KEY,
+    amount NUMERIC
+);
+
+CREATE TABLE fines (
+    id SERIAL PRIMARY KEY,
+    amount_id INTEGER REFERENCES fines_amount(id),
+    fine_cost NUMERIC,
+    is_active BOOLEAN,
+    is_paid BOOLEAN
+);
+
+CREATE TABLE orders_fines (
+    fine_id INTEGER REFERENCES fines(id),
+    order_id INTEGER REFERENCES orders(id)
+);
