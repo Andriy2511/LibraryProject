@@ -23,6 +23,13 @@ public class Reader {
     private boolean isBlocked;
     private String email;
 
+    public Reader(String username, String password, boolean isBlocked, String email) {
+        this.username = username;
+        this.password = password;
+        this.isBlocked = isBlocked;
+        this.email = email;
+    }
+
     @ManyToMany
     @JoinTable(
             name = "readers_roles",
