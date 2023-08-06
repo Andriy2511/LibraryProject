@@ -5,9 +5,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ReaderRepository extends JpaRepository<Reader, Long> {
-    List<Reader> findAllByUsername(String username);
-    List<Reader> findAllByEmail(String email);
+    Optional<Reader> findAllByUsername(String username);
+    Optional<Reader> findAllByEmail(String email);
+    Boolean existsByUsername(String username);
+    Boolean existsByEmail(String email);
 }

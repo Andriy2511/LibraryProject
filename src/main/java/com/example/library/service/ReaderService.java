@@ -1,57 +1,25 @@
 package com.example.library.service;
 
-import com.example.library.DTO.ReaderDTO;
 import com.example.library.model.Reader;
 import com.example.library.repository.ReaderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class ReaderService {
     ReaderRepository readerRepository;
-    BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public ReaderService(ReaderRepository readerRepository, BCryptPasswordEncoder passwordEncoder){
+    public ReaderService(ReaderRepository readerRepository){
         this.readerRepository = readerRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     /**
      * The method saves the user to the database
-     * @param readerDTO An object of the ReaderDTO class which should have the following parameters: username, password, email
+     * @param reader An object of the Reader class which should have the following parameters: username, password, email, role
      */
-    public void registerUser(ReaderDTO readerDTO){
-        Reader reader = new Reader();
-        reader.setUsername(readerDTO.getUsername());
-        reader.setPassword(passwordEncoder.encode(readerDTO.getPassword()));
-        reader.setEmail(readerDTO.getEmail());
-        reader.setBlocked(false);
-
+    public void registerUser(Reader reader){
         readerRepository.save(reader);
-    }
-
-    /**
-     * The method finds user by his username
-     * @param username Users username
-     * @return List of readers
-     */
-    public List<Reader> findUserByUsername(String username){
-        return readerRepository.findAllByUsername(username);
-    }
-
-    /**
-     * The method finds user by his email
-     * @param email Users email
-     * @return List of readers
-     */
-    public List<Reader> findUserByEmail(String email){
-        return readerRepository.findAllByEmail(email);
     }
 
     /**
@@ -60,8 +28,7 @@ public class ReaderService {
      * @return If the user exists the method returns true, otherwise, it returns false
      */
     public boolean isUserExistCheckByUsername(String username){
-        List<Reader> readerList = findUserByUsername(username);
-        return readerList.size() >= 1;
+        return readerRepository.existsByUsername(username);
     }
 
     /**
@@ -70,7 +37,8 @@ public class ReaderService {
      * @return If the user exists the method returns true, otherwise, it returns false
      */
     public boolean isUserExistCheckByEmail(String email){
-        List<Reader> readerList = findUserByEmail(email);
-        return readerList.size() >= 1;
+        return readerRepository.existsByEmail(email);
     }
+
+
 }

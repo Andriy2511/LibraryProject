@@ -1,9 +1,13 @@
 package com.example.library.controller;
 
 import com.example.library.DTO.ReaderDTO;
+import com.example.library.model.Reader;
 import com.example.library.service.ReaderService;
+import com.example.library.service.RoleService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
@@ -17,9 +21,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class RegistrationController {
 
     private final ReaderService readerService;
+    private final RoleService roleService;
+    private final PasswordEncoder passwordEncoder;
 
-    public RegistrationController(ReaderService readerService){
+    @Autowired
+    public RegistrationController(ReaderService readerService, RoleService roleService, PasswordEncoder passwordEncoder){
         this.readerService = readerService;
+        this.roleService = roleService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -41,6 +50,8 @@ public class RegistrationController {
      */
     @PostMapping("/register")
     public String registerUser(@ModelAttribute ("readerDTO") @Valid ReaderDTO readerDTO, BindingResult result){
+        System.out.println("registerUser method");
+        System.out.println(readerDTO);
         if(result.hasErrors()){
             return "registration";
         }
@@ -57,12 +68,22 @@ public class RegistrationController {
                 return "registration";
             }
 
-            readerService.registerUser(readerDTO);
+            readerService.registerUser(getReaderFromDTO(readerDTO));
             return "redirect:login";
         } catch (Exception e){
             log.error("Error while adding to the database: \n{}", e.getMessage());
             result.rejectValue( "database.addingReaderError", "Помилка під час реєстрації: " + e.getMessage());
             return "registration";
         }
+    }
+
+    private Reader getReaderFromDTO(ReaderDTO readerDTO){
+        Reader reader = new Reader();
+        reader.setUsername(readerDTO.getUsername());
+        reader.setPassword(passwordEncoder.encode(readerDTO.getPassword()));
+        reader.setEmail(readerDTO.getEmail());
+        reader.setBlocked(false);
+        reader.setRoles(roleService.findRoleByName("User"));
+        return reader;
     }
 }

@@ -30,7 +30,7 @@ public class Reader {
         this.email = email;
     }
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "readers_roles",
             joinColumns = @JoinColumn(name = "reader_id"),
