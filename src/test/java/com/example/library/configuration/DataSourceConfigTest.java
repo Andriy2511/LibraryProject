@@ -1,6 +1,6 @@
 package com.example.library.configuration;
 
-import jakarta.persistence.EntityManager;
+import javax.persistence.EntityManager;
 import com.example.library.LibraryApplication;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,9 +1,9 @@
 package com.example.library.DTO;
 
 import com.example.library.model.Reader;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.validator.constraints.UniqueElements;
 

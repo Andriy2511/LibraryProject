@@ -1,7 +1,7 @@
 package com.example.library.model;
 
 import lombok.*;
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @Getter
 @Setter

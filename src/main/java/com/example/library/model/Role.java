@@ -2,7 +2,7 @@ package com.example.library.model;
 
 import lombok.*;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import java.util.List;
 
 @Getter

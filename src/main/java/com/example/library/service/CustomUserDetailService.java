@@ -29,7 +29,54 @@ public class CustomUserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Reader reader = readerRepository.findAllByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Username not found"));
-        return new User(reader.getUsername(), reader.getPassword(), mapRolesToGrantedAuthorities(reader.getRoles()));
+        //return new User(reader.getUsername(), reader.getPassword(), mapRolesToGrantedAuthorities(reader.getRoles()));
+        return new UserDetails() {
+            @Override
+            public Collection<? extends GrantedAuthority> getAuthorities() {
+                System.out.println(reader.getRoles());
+                return mapRolesToGrantedAuthorities(reader.getRoles());
+            }
+
+            @Override
+            public String getPassword() {
+                System.out.println(reader.getPassword());
+                return reader.getPassword();
+            }
+
+            @Override
+            public String getUsername() {
+                System.out.println(reader.getUsername());
+                return reader.getUsername();
+            }
+
+            @Override
+            public boolean isAccountNonExpired() {
+                System.out.println(true);
+                return true;
+            }
+
+            @Override
+            public boolean isAccountNonLocked() {
+                System.out.println(true);
+                return true;
+            }
+
+            @Override
+            public boolean isCredentialsNonExpired() {
+                System.out.println(true);
+                return true;
+            }
+
+            @Override
+            public boolean isEnabled() {
+                System.out.println(true);
+                return true;
+            }
+
+            public String getFullName() {
+                return username;
+            }
+        };
     }
 
     private Collection<GrantedAuthority> mapRolesToGrantedAuthorities(List<Role> roles){

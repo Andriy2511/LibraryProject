@@ -4,7 +4,7 @@ import com.example.library.DTO.ReaderDTO;
 import com.example.library.model.Reader;
 import com.example.library.service.ReaderService;
 import com.example.library.service.RoleService;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -50,8 +50,6 @@ public class RegistrationController {
      */
     @PostMapping("/register")
     public String registerUser(@ModelAttribute ("readerDTO") @Valid ReaderDTO readerDTO, BindingResult result){
-        System.out.println("registerUser method");
-        System.out.println(readerDTO);
         if(result.hasErrors()){
             return "registration";
         }
@@ -83,7 +81,7 @@ public class RegistrationController {
         reader.setPassword(passwordEncoder.encode(readerDTO.getPassword()));
         reader.setEmail(readerDTO.getEmail());
         reader.setBlocked(false);
-        reader.setRoles(roleService.findRoleByName("User"));
+        reader.setRoles(roleService.findRoleByName("USER"));
         return reader;
     }
 }
