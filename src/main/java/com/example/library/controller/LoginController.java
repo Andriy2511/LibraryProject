@@ -42,7 +42,6 @@ public class LoginController {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(readerDTO.getUsername(), readerDTO.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            // Використовуємо результат з getPageByRole для перенаправлення користувача
             return getPageByRole(authentication);
         } catch (AuthenticationException e) {
             result.rejectValue("username", "error.invalidCredentials", "Invalid username or password");
@@ -53,7 +52,7 @@ public class LoginController {
     private String getPageByRole(Authentication authentication) {
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         if (authorities.stream().anyMatch(auth -> auth.getAuthority().equals("ADMIN"))) {
-            return "/del1";
+            return "redirect:/book/showAddBookForm";
         } else if (authorities.stream().anyMatch(auth -> auth.getAuthority().equals("USER"))) {
             return "/del1";
         } else {
@@ -61,49 +60,3 @@ public class LoginController {
         }
     }
 }
-
-//    @PostMapping("/authorize")
-//    public String loginUser(@ModelAttribute("readerDTO") @Valid ReaderDTO readerDTO, BindingResult result, Principal principal) {
-//        try {
-//            Authentication authentication = authenticationManager.authenticate(
-//                    new UsernamePasswordAuthenticationToken(readerDTO.getUsername(), readerDTO.getPassword()));
-//            SecurityContextHolder.getContext().setAuthentication(authentication);
-//
-//            return getPageByRole(authentication);
-//        } catch (AuthenticationException e) {
-//            result.rejectValue("username", "error.invalidCredentials", "Invalid username or password");
-//            return "login";
-//        }
-//    }
-//
-//    private String getPageByRole(Authentication authentication){
-//        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-//        if (authorities.stream().anyMatch(auth -> auth.getAuthority().equals("ADMIN"))) {
-//            return "/del1";
-//        } else if (authorities.stream().anyMatch(auth -> auth.getAuthority().equals("USER"))) {
-//            return "/del1";
-//        } else {
-//            return "redirect:registration";
-//        }
-//    }
-//    @GetMapping("/testURL")
-//    public String printTEST() {
-//        System.out.println("testURL1 for User is working");
-//        return "login";
-//    }
-//
-//    @GetMapping("/testURL2")
-//    public String printTEST2() {
-//        System.out.println("testURL2 for Admin is working");
-//        return "login";
-//    }
-
-//    System.out.println("------------------------------------");
-//            System.out.println("Username: " + authentication.getName());
-//            System.out.println("Authorities: " + authentication.getAuthorities());
-//            System.out.println("------------------------------------");
-//            System.out.println(SecurityContextHolder.getContext().getAuthentication());
-//            System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-//            System.out.println("------------------------------------");
-//            System.out.println(principal);
-//            System.out.println("------------------------------------");
