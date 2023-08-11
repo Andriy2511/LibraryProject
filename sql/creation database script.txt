@@ -28,7 +28,7 @@ CREATE TABLE books (
     title VARCHAR(255) NOT NULL,
     photo VARCHAR(255),
     publication_date DATE,
-    description TEXT -- Додано поле "description" типу TEXT.
+    description TEXT
 );
 
 CREATE TABLE books_count (
