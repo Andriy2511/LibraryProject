@@ -19,6 +19,7 @@ public class BookCount {
     @OneToOne
     @MapsId
     @JoinColumn(name = "book_id")
+    @ToString.Exclude
     private Book book;
 
     private Integer count;

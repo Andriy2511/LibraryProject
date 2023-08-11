@@ -28,6 +28,12 @@ public class BookController {
         this.bookCountRepository= bookCountRepository;
     }
 
+    @GetMapping("/showBookList")
+    public String showBookList(Model model) {
+        model.addAttribute("books", bookRepository.findAll());
+        return "admin/book-list";
+    }
+
     @GetMapping("/showAddBookForm")
     public String showAddBookForm(Model model) {
         model.addAttribute("bookDTO", new BookDTO());

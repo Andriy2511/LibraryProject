@@ -1,4 +1,4 @@
-package com.example.library.controller;
+package com.example.library.controller.registration;
 
 import com.example.library.DTO.ReaderDTO;
 import com.example.library.model.Reader;

@@ -26,6 +26,7 @@ public class Book {
 
     @OneToOne(mappedBy = "book", cascade = CascadeType.REMOVE)
     @PrimaryKeyJoinColumn
+    @ToString.Exclude
     private BookCount bookCount;
 
     @ManyToMany

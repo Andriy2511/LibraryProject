@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Book List</title>
+</head>
+<body>
+<table>
+    <tr>
+        <th>Title</th>
+        <th>Photo</th>
+        <th>Publication Date</th>
+        <th>Description</th>
+        <th>Count</th>
+            </tr>
+    <tr th:each="book : ${books}">
+        <td th:text="${book.title}"></td>
+        <td th:text="${book.photo}"></td>
+        <td th:text="${#dates.format(book.publicationDate, 'dd-MM-yyyy')}"></td>
+        <td th:text="${book.description}"></td>
+        <td th:if="${book.getBookCount() != null}" th:text="${book.getBookCount().getCount()}"></td>
+        <td th:unless="${book.getBookCount() != null}">0</td>
+    </tr>
+</table>
+<a th:href="@{/book/showBookList}">Add New Book</a>
+</body>
+</html>

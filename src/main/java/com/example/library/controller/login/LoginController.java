@@ -1,4 +1,4 @@
-package com.example.library.controller;
+package com.example.library.controller.login;
 
 import com.example.library.DTO.ReaderDTO;
 import javax.validation.Valid;
