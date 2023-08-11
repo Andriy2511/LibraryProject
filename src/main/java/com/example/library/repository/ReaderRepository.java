@@ -15,4 +15,5 @@ public interface ReaderRepository extends JpaRepository<Reader, Long> {
     Boolean existsByUsername(String username);
     Boolean existsByEmail(String email);
     List<Reader> findAllByRolesIn(List<Role> roles);
+    List<Reader> findByIsBlocked(boolean blocked);
 }

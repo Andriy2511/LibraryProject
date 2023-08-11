@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Author List</title>
+    <title>Users List</title>
 </head>
 <body>
 <table>
@@ -10,11 +10,17 @@
         <th>Username</th>
         <th>Email</th>
         <th>Status blocked</th>
+        <th>Action</th>
     </tr>
     <tr th:each="user : ${users}">
-        <td th:text="${user.username}"></td>
+        <td><a th:href="@{/user/userInfo/{id}(id=${user.id})}" th:text="${user.username}"></a></td>
         <td th:text="${user.email}"></td>
         <td th:text="${user.blocked}"></td>
+        <td>
+            <form th:action="@{/user/blockUser/{id}(id=${user.id})}" method="post">
+                <input type="submit" th:value="${user.blocked ? 'Unblock' : 'Block'}">
+            </form>
+        </td>
     </tr>
 </table>
 <a th:href="@{/user/showUserList}">Show author list</a>

@@ -8,7 +8,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -33,4 +32,16 @@ public class Order {
     @ManyToMany(mappedBy = "orders")
     @ToString.Exclude
     private List<Fine> fines;
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", orderDate=" + orderDate +
+                ", returnDate=" + returnDate +
+                ", isReturned=" + isReturned +
+                ", username=" + reader.getUsername() +
+                ", book=" + book.getTitle() +
+                '}';
+    }
 }
