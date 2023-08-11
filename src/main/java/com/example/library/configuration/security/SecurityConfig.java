@@ -43,8 +43,8 @@ public class SecurityConfig {
 //                            .requestMatchers("/registration", "/login", "/register", "/checkUser", "/authorize", "/testAdminPage").permitAll()
 
 //                            .requestMatchers(new AntPathRequestMatcher("/authorize")).authenticated()
-//                            .requestMatchers(new AntPathRequestMatcher("/testURL")).hasRole("User")
-//                            .requestMatchers(new AntPathRequestMatcher("/testURL2")).hasRole("Admin")
+//                            .requestMatchers(new AntPathRequestMatcher("/testURL")).hasRole("USER")
+//                            .requestMatchers(new AntPathRequestMatcher("/testURL2")).hasRole("ADMIN")
 //                            .anyRequest().authenticated();
                             .anyRequest().permitAll();
                 }

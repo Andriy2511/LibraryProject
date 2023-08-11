@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Author List</title>
+</head>
+<body>
+<table>
+    <tr>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Status blocked</th>
+    </tr>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.username}"></td>
+        <td th:text="${user.email}"></td>
+        <td th:text="${user.blocked}"></td>
+    </tr>
+</table>
+<a th:href="@{/user/showUserList}">Show author list</a>
+</body>
+</html>
