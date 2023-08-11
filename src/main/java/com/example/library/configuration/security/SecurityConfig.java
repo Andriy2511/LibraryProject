@@ -1,4 +1,4 @@
-package com.example.library.security;
+package com.example.library.configuration.security;
 
 import com.example.library.service.CustomUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,26 +55,4 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
-//pom 3.1.2
-
-//    @Bean
-//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        return http
-//                .authorizeHttpRequests((authorize) -> {
-//                    authorize
-//                            .requestMatchers("/registration", "/login", "/register").permitAll()
-//                            .requestMatchers("/testUserPage").hasRole("User")
-//                            .requestMatchers("/testAdminPage").hasRole("Admin")
-//                            .anyRequest().authenticated();
-//                }
-//        ).build();
-//    }
-
-//    @Bean
-//    @Order(2)
-//    public SecurityFilterChain filterChain2(HttpSecurity http) throws Exception {
-//        return http.securityMatcher()
-//    }
-
-
 }
