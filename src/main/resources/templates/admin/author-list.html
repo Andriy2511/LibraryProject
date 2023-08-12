@@ -7,12 +7,10 @@
 <body>
 <table>
     <tr>
-        <th>Name</th>
-        <th>Surname</th>
+        <th>Author name</th>
     </tr>
     <tr th:each="author : ${authors}">
-        <td th:text="${author.firstName}"></td>
-        <td th:text="${author.lastName}"></td>
+        <td><a th:href="@{/author/authorInfo/{id}(id=${author.id})}"  th:text="${author.firstName + ' ' + author.lastName}"></a></td>
     </tr>
 </table>
 <a th:href="@{/author/showAuthorList}">Show author list</a>

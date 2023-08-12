@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/book")
@@ -54,5 +55,17 @@ public class BookController {
         bookCountRepository.save(bookCount);
 
         return "redirect:/book/showAddBookForm";
+    }
+
+    @GetMapping("/bookInfo/{id}")
+    public String showUserInfo(@PathVariable Long id, Model model) {
+        Optional<Book> bookOptional = bookRepository.findById(id);
+
+        if (bookOptional.isPresent()) {
+            model.addAttribute("book", bookOptional.get());
+        } else {
+            model.addAttribute("book", null);
+        }
+        return "admin/book-info";
     }
 }

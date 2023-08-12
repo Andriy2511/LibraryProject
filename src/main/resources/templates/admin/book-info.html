@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Information</title>
+</head>
+<body>
+<h2>Book Information</h2>
+<div th:if="${book}">
+    <p><strong>Title:</strong> <span th:text="${book.title}"></span></p>
+    <p th:if="${book.authors.size() > 0}"><strong>Authors:</strong>
+        <span th:each="author, iterable : ${book.authors}">
+            <span><a th:href="@{/author/authorInfo/{id}(id=${author.id})}" th:text="${author.firstName + author.lastName}"></a></span>
+            <span th:if="${!iterable.last}">, </span>
+        </span>
+    </p>
+    <p><strong>Publication date:</strong> <span th:text="${book.publicationDate}"></span></p>
+    <p><strong>Photo:</strong> <span th:text="${book.photo}"></span></p>
+    <p><strong>Description:</strong> <span th:text="${book.description}"></span></p>
+</div>
+<div th:unless="${book}">
+    <p>Book not found.</p>
+</div>
+<a th:href="@{/book/showBookList}">Back to Books List</a>
+</body>
+</html>

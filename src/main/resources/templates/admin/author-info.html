@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Author Information</title>
+</head>
+<body>
+<h2>Author Information</h2>
+<div th:if="${author}">
+    <p><strong>First name:</strong> <span th:text="${author.firstName}"></span></p>
+    <p><strong>Last name:</strong> <span th:text="${author.lastName}"></span></p>
+</div>
+<div th:if="${author.books.size() > 0}">
+    <table>
+        <caption><b> Author books: </b></caption>
+        <tr>
+            <th>Book title</th>
+        </tr>
+        <tr th:each="book : ${author.books}">
+            <td><a th:href="@{/book/bookInfo/{id}(id=${book.id})}"  th:text="${book.title}"></a></td>
+        </tr>
+    </table>
+</div>
+<div th:unless="${author}">
+    <p>Author not found.</p>
+</div>
+<a th:href="@{/author/showAuthorList}">Back to Author List</a>
+</body>
+</html>
