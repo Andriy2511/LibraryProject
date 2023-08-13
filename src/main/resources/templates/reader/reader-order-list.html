@@ -8,14 +8,12 @@
 <table>
     <tr>
         <th>Book Title</th>
-        <th>Reader</th>
         <th>Order Date</th>
         <th>Return Date</th>
         <th>Is order returned</th>
     </tr>
     <tr th:each="order : ${orders}">
         <td><a th:href="@{/book/bookInfo/{id}(id=${order.book.id})}" th:text="${order.book.title}"></a></td>
-        <td><a th:href="@{/templates/reader/userInfo/{id}(id=${order.reader.id})}" th:text="${order.reader.username}"></a></td>
         <td th:text="${order.orderDate}"></td>
         <td th:text="${order.returnDate}"></td>
         <td th:text="${order.returned}"></td>

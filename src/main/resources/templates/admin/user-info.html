@@ -6,20 +6,20 @@
 </head>
 <body>
 <h2>User Information</h2>
-<div th:if="${user}">
-    <p><strong>Name:</strong> <span th:text="${user.username}"></span></p>
-    <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
+<div th:if="${reader}">
+    <p><strong>Name:</strong> <span th:text="${reader.username}"></span></p>
+    <p><strong>Email:</strong> <span th:text="${reader.email}"></span></p>
     <p><strong>Status blocked:</strong>
-        <span th:text="${user.blocked}"></span>
+        <span th:text="${reader.blocked}"></span>
     </p>
     <p><strong>Roles:</strong>
-        <span th:each="role, iterable : ${user.roles}">
+        <span th:each="role, iterable : ${reader.roles}">
             <span th:text="${role.name}"></span>
             <span th:if="${!iterable.last}">, </span>
         </span>
     </p>
 </div>
-<div th:if="${user.orders.size() > 0}">
+<div th:if="${reader.orders.size() > 0}">
     <table>
         <caption><b> User Orders: </b></caption>
         <tr>
@@ -28,7 +28,7 @@
             <th>Return Date</th>
             <th>Is book returned</th>
         </tr>
-        <tr th:each="order : ${user.orders}">
+        <tr th:each="order : ${reader.orders}">
             <td th:text="${order.book.title}"></td>
             <td th:text="${order.orderDate}"></td>
             <td th:text="${order.returnDate}"></td>
@@ -36,9 +36,9 @@
         </tr>
     </table>
 </div>
-<div th:unless="${user}">
+<div th:unless="${reader}">
     <p>User not found.</p>
 </div>
-<a th:href="@{/user/showUserList}">Back to User List</a>
+<a th:href="@{/templates/reader/showUserList}">Back to User List</a>
 </body>
 </html>

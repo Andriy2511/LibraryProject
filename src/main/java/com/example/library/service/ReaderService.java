@@ -5,6 +5,8 @@ import com.example.library.repository.ReaderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class ReaderService {
     ReaderRepository readerRepository;
@@ -40,5 +42,12 @@ public class ReaderService {
         return readerRepository.existsByEmail(email);
     }
 
+    public Long findReaderIdByName(String name){
+        Optional<Reader> reader = readerRepository.findAllByUsername(name);
+        return reader.map(Reader::getId).orElse(null);
+    }
 
+    public Reader findReaderByName(String username){
+        return readerRepository.findAllByUsername(username).get();
+    }
 }

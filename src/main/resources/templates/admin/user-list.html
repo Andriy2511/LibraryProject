@@ -12,17 +12,17 @@
         <th>Status blocked</th>
         <th>Action</th>
     </tr>
-    <tr th:each="user : ${users}">
-        <td><a th:href="@{/user/userInfo/{id}(id=${user.id})}" th:text="${user.username}"></a></td>
-        <td th:text="${user.email}"></td>
-        <td th:text="${user.blocked}"></td>
+    <tr th:each="reader : ${readers}">
+        <td><a th:href="@{/templates/reader/userInfo/{id}(id=${reader.id})}" th:text="${reader.username}"></a></td>
+        <td th:text="${reader.email}"></td>
+        <td th:text="${reader.blocked}"></td>
         <td>
-            <form th:action="@{/user/blockUser/{id}(id=${user.id})}" method="post">
-                <input type="submit" th:value="${user.blocked ? 'Unblock' : 'Block'}">
+            <form th:action="@{/templates/reader/blockUser/{id}(id=${reader.id})}" method="post">
+                <input type="submit" th:value="${reader.blocked ? 'Unblock' : 'Block'}">
             </form>
         </td>
     </tr>
 </table>
-<a th:href="@{/user/showUserList}">Show author list</a>
+<a th:href="@{/templates/reader/showUserList}">Show author list</a>
 </body>
 </html>

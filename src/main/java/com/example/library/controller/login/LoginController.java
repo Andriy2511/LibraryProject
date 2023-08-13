@@ -2,13 +2,15 @@ package com.example.library.controller.login;
 
 import com.example.library.DTO.ReaderDTO;
 import javax.validation.Valid;
+
+import com.example.library.model.Reader;
+import com.example.library.service.ReaderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +19,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.security.Principal;
 import java.util.Collection;
 
 @Controller
@@ -44,6 +45,7 @@ public class LoginController {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             return getPageByRole(authentication);
         } catch (AuthenticationException e) {
+            e.printStackTrace();
             result.rejectValue("username", "error.invalidCredentials", "Invalid username or password");
             return "login";
         }
@@ -54,7 +56,7 @@ public class LoginController {
         if (authorities.stream().anyMatch(auth -> auth.getAuthority().equals("ADMIN"))) {
             return "redirect:/book/showAddBookForm";
         } else if (authorities.stream().anyMatch(auth -> auth.getAuthority().equals("USER"))) {
-            return "/del1";
+            return "redirect:/order/showReaderOrderList";
         } else {
             return "redirect:/registration";
         }

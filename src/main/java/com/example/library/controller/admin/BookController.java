@@ -4,10 +4,12 @@ import com.example.library.DTO.BookDTO;
 import com.example.library.model.Author;
 import com.example.library.model.Book;
 import com.example.library.model.BookCount;
+import com.example.library.model.Reader;
 import com.example.library.repository.AuthorRepository;
 import com.example.library.repository.BookCountRepository;
 import com.example.library.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -43,8 +45,8 @@ public class BookController {
     }
 
     @PostMapping("/addBook")
-    public String addBook(@ModelAttribute("bookDTO") BookDTO bookDTO, @RequestParam("authors") List<Long> authorIds) {
-        List<Author> selectedAuthors = authorRepository.findAllById(authorIds);
+    public String addBook(@ModelAttribute("bookDTO") BookDTO bookDTO, @RequestParam("authors") List<Long> authorId) {
+        List<Author> selectedAuthors = authorRepository.findAllById(authorId);
         bookDTO.setAuthors(selectedAuthors);
         Book book = BookDTO.mapToBook(bookDTO);
         bookRepository.save(book);
@@ -67,5 +69,11 @@ public class BookController {
             model.addAttribute("book", null);
         }
         return "admin/book-info";
+    }
+
+    @GetMapping("/showBookCatalog")
+    public String getAllBooks(Model model) {
+        model.addAttribute("books", bookRepository.findAll());
+        return "catalog/book-catalog";
     }
 }

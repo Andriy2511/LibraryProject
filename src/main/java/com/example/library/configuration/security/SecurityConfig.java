@@ -38,18 +38,27 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-                .authorizeHttpRequests((authorize) -> {
-                    authorize
-//                            .requestMatchers("/registration", "/login", "/register", "/checkUser", "/authorize", "/testAdminPage").permitAll()
-
-//                            .requestMatchers(new AntPathRequestMatcher("/authorize")).authenticated()
-//                            .requestMatchers(new AntPathRequestMatcher("/testURL")).hasRole("USER")
-//                            .requestMatchers(new AntPathRequestMatcher("/testURL2")).hasRole("ADMIN")
-//                            .anyRequest().authenticated();
-                            .anyRequest().permitAll();
-                }
-        ).build();
+                .authorizeRequests()
+                //.mvcMatchers("/order/check").hasRole("USER")
+                .anyRequest().permitAll()
+                .and()
+        .build();
     }
+//    @Bean
+//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+//        return http
+//                .authorizeHttpRequests((authorize) -> {
+//                    authorize
+////                            .requestMatchers("/registration", "/login", "/register", "/checkUser", "/authorize", "/testAdminPage").permitAll()
+//
+////                            .requestMatchers(new AntPathRequestMatcher("/authorize")).authenticated()
+////                            .requestMatchers(new AntPathRequestMatcher("/testURL")).hasRole("USER")
+////                            .requestMatchers(new AntPathRequestMatcher("/testURL2")).hasRole("ADMIN")
+////                            .anyRequest().authenticated();
+//                            .anyRequest().permitAll();
+//                }
+//        ).build();
+//    }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
