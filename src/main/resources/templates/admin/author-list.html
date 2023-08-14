@@ -10,9 +10,9 @@
         <th>Author name</th>
     </tr>
     <tr th:each="author : ${authors}">
-        <td><a th:href="@{/author/authorInfo/{id}(id=${author.id})}"  th:text="${author.firstName + ' ' + author.lastName}"></a></td>
+        <td><a th:href="@{/catalog/authorInfo/{id}(id=${author.id})}"  th:text="${author.firstName + ' ' + author.lastName}"></a></td>
     </tr>
 </table>
-<a th:href="@{/author/showAuthorList}">Show author list</a>
+<a th:href="@{/admin/showAuthorList}">Show author list</a>
 </body>
 </html>

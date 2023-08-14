@@ -1,4 +1,4 @@
-package com.example.library.controller.admin;
+package com.example.library.controller;
 
 import com.example.library.DTO.BookDTO;
 import com.example.library.model.*;

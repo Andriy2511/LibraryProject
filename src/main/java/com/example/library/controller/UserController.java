@@ -1,7 +1,9 @@
-package com.example.library.controller.user;
+package com.example.library.controller;
 
 import com.example.library.model.Order;
 import com.example.library.model.Reader;
+import com.example.library.service.IBookService;
+import com.example.library.service.IOrderService;
 import com.example.library.service.implementation.BookService;
 import com.example.library.service.implementation.OrderService;
 import com.example.library.service.implementation.IReaderService;
@@ -21,12 +23,12 @@ import java.security.Principal;
 public class UserController {
 
     private final IReaderService readerService;
-    private final OrderService orderService;
-    private final BookService bookService;
+    private final IOrderService orderService;
+    private final IBookService bookService;
 
 
     @Autowired
-    public UserController(IReaderService readerService, OrderService orderService, BookService bookService) {
+    public UserController(IReaderService readerService, IOrderService orderService, IBookService bookService) {
         this.readerService = readerService;
         this.orderService = orderService;
         this.bookService = bookService;

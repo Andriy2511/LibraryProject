@@ -10,7 +10,7 @@
     <p><strong>Title:</strong> <span th:text="${book.title}"></span></p>
     <p th:if="${book.authors.size() > 0}"><strong>Authors:</strong>
         <span th:each="author, iterable : ${book.authors}">
-            <span><a th:href="@{/author/authorInfo/{id}(id=${author.id})}" th:text="${author.firstName + author.lastName}"></a></span>
+            <span><a th:href="@{/catalog/authorInfo/{id}(id=${author.id})}" th:text="${author.firstName + author.lastName}"></a></span>
             <span th:if="${!iterable.last}">, </span>
         </span>
     </p>
@@ -21,6 +21,6 @@
 <div th:unless="${book}">
     <p>Book not found.</p>
 </div>
-<a th:href="@{/book/showBookList}">Back to Books List</a>
+<a th:href="@{/admin/showBookList}">Back to Books List</a>
 </body>
 </html>

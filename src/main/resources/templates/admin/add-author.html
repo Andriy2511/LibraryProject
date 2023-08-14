@@ -5,7 +5,7 @@
 </head>
 <body>
 <h2>Add a new author</h2>
-<form th:action="@{/author/addAuthor}" method="post" th:object="${author}">
+<form th:action="@{/admin/addAuthor}" method="post" th:object="${author}">
     <label for="firstName">First name:</label>
     <input type="text" id="firstName" name="firstName" th:field="*{firstName}"><br>
 

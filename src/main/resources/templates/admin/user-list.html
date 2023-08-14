@@ -13,11 +13,11 @@
         <th>Action</th>
     </tr>
     <tr th:each="reader : ${readers}">
-        <td><a th:href="@{/templates/reader/userInfo/{id}(id=${reader.id})}" th:text="${reader.username}"></a></td>
+        <td><a th:href="@{/admin/userInfo/{id}(id=${reader.id})}" th:text="${reader.username}"></a></td>
         <td th:text="${reader.email}"></td>
         <td th:text="${reader.blocked}"></td>
         <td>
-            <form th:action="@{/templates/reader/blockUser/{id}(id=${reader.id})}" method="post">
+            <form th:action="@{/admin/blockUser/{id}(id=${reader.id})}" method="post">
                 <input type="submit" th:value="${reader.blocked ? 'Unblock' : 'Block'}">
             </form>
         </td>

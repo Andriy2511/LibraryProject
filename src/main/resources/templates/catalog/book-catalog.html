@@ -30,14 +30,14 @@
         <div class="col-md-10 offset-md-1">
             <div class="row">
                 <div th:each="book : ${books}" class="col-md-4">
-                    <form th:action="@{/order/addOrder/{bookId}(bookId=${book.id})}" method="post">
+                    <form th:action="@{/user/addOrder/{bookId}(bookId=${book.id})}" method="post">
                         <div class="book-card">
                             <img th:src="${book.photo}" class="book-photo" alt="Book Photo">
-                            <h4><a th:href="@{/book/bookInfo/{id}(id=${book.id})}" th:text="${book.title}">Name</a></h4>
+                            <h4><a th:href="@{/catalog/bookInfo/{id}(id=${book.id})}" th:text="${book.title}">Name</a></h4>
                             <p>Authors:</p>
                             <ul class="list-unstyled">
                                 <li th:each="author : ${book.authors}">
-                                    <a th:href="@{/author/authorInfo/{id}(id=${author.id})}" th:text="${author.firstName + ' ' + author.lastName}"></a>
+                                    <a th:href="@{/catalog/authorInfo/{id}(id=${author.id})}" th:text="${author.firstName + ' ' + author.lastName}"></a>
                                 </li>
                             </ul>
                         </div>

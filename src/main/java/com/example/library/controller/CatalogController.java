@@ -1,7 +1,9 @@
-package com.example.library.controller.catalog;
+package com.example.library.controller;
 
 import com.example.library.model.Author;
 import com.example.library.model.Book;
+import com.example.library.service.IAuthorService;
+import com.example.library.service.IBookService;
 import com.example.library.service.implementation.AuthorService;
 import com.example.library.service.implementation.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/catalog")
 public class CatalogController {
 
-    private final AuthorService authorService;
-    private final BookService bookService;
+    private final IAuthorService authorService;
+    private final IBookService bookService;
 
     @Autowired
-    public CatalogController(AuthorService authorService, BookService bookService) {
+    public CatalogController(IAuthorService authorService, IBookService bookService) {
         this.authorService = authorService;
         this.bookService = bookService;
     }

@@ -1,4 +1,4 @@
-package com.example.library.controller.registration;
+package com.example.library.controller;
 
 import com.example.library.DTO.ReaderDTO;
 import com.example.library.model.Reader;
@@ -22,13 +22,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class RegistrationController {
 
     private final IReaderService readerService;
-    private final IRoleService IRoleService;
+    private final IRoleService roleService;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public RegistrationController(IReaderService readerService, IRoleService IRoleService, PasswordEncoder passwordEncoder){
+    public RegistrationController(IReaderService readerService, IRoleService roleService, PasswordEncoder passwordEncoder){
         this.readerService = readerService;
-        this.IRoleService = IRoleService;
+        this.roleService = roleService;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -82,7 +82,7 @@ public class RegistrationController {
         reader.setPassword(passwordEncoder.encode(readerDTO.getPassword()));
         reader.setEmail(readerDTO.getEmail());
         reader.setBlocked(false);
-        reader.setRoles(IRoleService.findRoleByName("USER"));
+        reader.setRoles(roleService.findRoleByName("USER"));
         return reader;
     }
 }

@@ -3,19 +3,17 @@ package com.example.library.service.implementation;
 import com.example.library.model.Reader;
 import com.example.library.model.Role;
 import com.example.library.repository.ReaderRepository;
-import com.example.library.service.IReaderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
-public class ReaderService implements IReaderService {
+public class IReaderService implements com.example.library.service.IReaderService {
     ReaderRepository readerRepository;
 
     @Autowired
-    public ReaderService(ReaderRepository readerRepository){
+    public IReaderService(ReaderRepository readerRepository){
         this.readerRepository = readerRepository;
     }
 

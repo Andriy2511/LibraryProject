@@ -17,13 +17,13 @@
             <th>Book title</th>
         </tr>
         <tr th:each="book : ${author.books}">
-            <td><a th:href="@{/book/bookInfo/{id}(id=${book.id})}"  th:text="${book.title}"></a></td>
+            <td><a th:href="@{/catalog/bookInfo/{id}(id=${book.id})}"  th:text="${book.title}"></a></td>
         </tr>
     </table>
 </div>
 <div th:unless="${author}">
     <p>Author not found.</p>
 </div>
-<a th:href="@{/author/showAuthorList}">Back to Author List</a>
+<a th:href="@{/admin/showAuthorList}">Back to Author List</a>
 </body>
 </html>

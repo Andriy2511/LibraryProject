@@ -1,15 +1,16 @@
-package com.example.library.service;
+package com.example.library.service.implementation;
 
 import com.example.library.model.Order;
 import com.example.library.model.Reader;
 import com.example.library.repository.OrderRepository;
+import com.example.library.service.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class OrderService implements IOrderService{
+public class OrderService implements IOrderService {
 
     private final OrderRepository orderRepository;
 

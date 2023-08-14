@@ -5,7 +5,7 @@
 </head>
 <body>
 <h2>Add a New Book</h2>
-<form th:action="@{/book/addBook}" method="post" th:object="${bookDTO}">
+<form th:action="@{/admin/addBook}" method="post" th:object="${bookDTO}">
     <label for="title">Title:</label>
     <input type="text" id="title" name="title" th:field="*{title}"><br>
 

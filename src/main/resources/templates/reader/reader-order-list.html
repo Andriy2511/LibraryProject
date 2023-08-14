@@ -13,13 +13,13 @@
         <th>Is order returned</th>
     </tr>
     <tr th:each="order : ${orders}">
-        <td><a th:href="@{/book/bookInfo/{id}(id=${order.book.id})}" th:text="${order.book.title}"></a></td>
+        <td><a th:href="@{/catalog/bookInfo/{id}(id=${order.book.id})}" th:text="${order.book.title}"></a></td>
         <td th:text="${order.orderDate}"></td>
         <td th:text="${order.returnDate}"></td>
         <td th:text="${order.returned}"></td>
     </tr>
     </tr>
 </table>
-<a th:href="@{/book/showBookList}">Add New Book</a>
+<a th:href="@{/catalog/showBookCatalog}">Show book catalog</a>
 </body>
 </html>
