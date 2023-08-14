@@ -3,8 +3,6 @@ package com.example.library.controller.login;
 import com.example.library.DTO.ReaderDTO;
 import javax.validation.Valid;
 
-import com.example.library.model.Reader;
-import com.example.library.service.ReaderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -54,9 +52,9 @@ public class LoginController {
     private String getPageByRole(Authentication authentication) {
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         if (authorities.stream().anyMatch(auth -> auth.getAuthority().equals("ADMIN"))) {
-            return "redirect:/book/showAddBookForm";
+            return "redirect:/admin/showAddBookForm";
         } else if (authorities.stream().anyMatch(auth -> auth.getAuthority().equals("USER"))) {
-            return "redirect:/order/showReaderOrderList";
+            return "redirect:/user/showReaderOrderList";
         } else {
             return "redirect:/registration";
         }
