@@ -17,7 +17,7 @@ import java.util.List;
 @Slf4j
 public class AdminController {
 
-    private final ReaderService readerService;
+    private final IReaderService readerService;
     private final IAuthorService authorService;
     private final IBookService bookService;
     private final IBookCountService bookCountService;

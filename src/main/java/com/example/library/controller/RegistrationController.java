@@ -2,6 +2,7 @@ package com.example.library.controller;
 
 import com.example.library.DTO.ReaderDTO;
 import com.example.library.model.Reader;
+import com.example.library.service.IReaderService;
 import com.example.library.service.IRoleService;
 import com.example.library.service.implementation.ReaderService;
 
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class RegistrationController {
 
-    private final ReaderService readerService;
+    private final IReaderService readerService;
     private final IRoleService roleService;
     private final PasswordEncoder passwordEncoder;
 

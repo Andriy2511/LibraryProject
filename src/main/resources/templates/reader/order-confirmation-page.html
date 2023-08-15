@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm my Order</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div th:replace="header/reader-panel"></div>
+<div class="container mt-5">
+    <h2 class="mb-3">Order List</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Book Title</th>
+            <th scope="col">Order Date</th>
+            <th scope="col">Return Date</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order : ${unconfirmedOrders}">
+            <td>
+                <a th:href="@{/catalog/bookInfo/{id}(id=${order.book.id})}" th:text="${order.book.title}"></a>
+            </td>
+            <td th:text="${order.orderDate}"></td>
+            <td th:text="${order.returnDate}"></td>
+            <td>
+                <form th:action="@{/user/confirmOrder/{id}(id=${order.book.id})}" method="post">
+                    <input type="submit" value="Confirm my order" class="btn btn-sm btn-success">
+                </form>
+                <form th:action="@{/user/cancelOrder/{id}(id=${order.book.id})}" method="post">
+                    <input type="submit" value="Cancel my order" class="btn btn-sm btn-danger">
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <a class="btn btn-secondary" th:href="@{/catalog/showBookCatalog}">Show Book Catalog</a>
+</div>
+</body>
+</html>
