@@ -3,7 +3,7 @@ package com.example.library.controller;
 import com.example.library.DTO.BookDTO;
 import com.example.library.model.*;
 import com.example.library.service.*;
-import com.example.library.service.implementation.IReaderService;
+import com.example.library.service.implementation.ReaderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,7 +17,7 @@ import java.util.List;
 @Slf4j
 public class AdminController {
 
-    private final IReaderService readerService;
+    private final ReaderService readerService;
     private final IAuthorService authorService;
     private final IBookService bookService;
     private final IBookCountService bookCountService;
@@ -25,7 +25,7 @@ public class AdminController {
     private final IRoleService roleService;
 
     @Autowired
-    public AdminController(IReaderService readerService, IAuthorService authorService, IBookService bookService, IBookCountService bookCountService, IOrderService orderService, IRoleService roleService) {
+    public AdminController(ReaderService readerService, IAuthorService authorService, IBookService bookService, IBookCountService bookCountService, IOrderService orderService, IRoleService roleService) {
         this.readerService = readerService;
         this.authorService = authorService;
         this.bookService = bookService;

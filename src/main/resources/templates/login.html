@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:background-image="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-<!--    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.2.0/css/all.css'>-->
-<!--    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css'>-->
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 
 </head>
 <body>
+<nav>
+    <span th:replace="${isAdmin} ? 'header/admin-panel' : 'header/reader-panel'"></span>
+</nav>
 <div class="background-image"></div>
 <div class="container">
     <div class="screen">

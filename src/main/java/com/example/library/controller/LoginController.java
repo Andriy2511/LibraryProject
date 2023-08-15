@@ -3,12 +3,16 @@ package com.example.library.controller;
 import com.example.library.DTO.ReaderDTO;
 import javax.validation.Valid;
 
+import com.example.library.model.Reader;
+import com.example.library.service.IRoleService;
+import com.example.library.service.implementation.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,15 +27,18 @@ import java.util.Collection;
 public class LoginController {
 
     private final AuthenticationManager authenticationManager;
+    private final IRoleService roleService;
 
     @Autowired
-    public LoginController(AuthenticationManager authenticationManager) {
+    public LoginController(AuthenticationManager authenticationManager, RoleService roleService) {
         this.authenticationManager = authenticationManager;
+        this.roleService = roleService;
     }
 
     @GetMapping("/login")
-    public String showLoginForm(Model model) {
+    public String showLoginForm(Model model, @AuthenticationPrincipal Reader reader) {
         model.addAttribute("readerDTO", new ReaderDTO());
+        model.addAttribute("isAdmin" , roleService.isUserContainRole(reader, "ADMIN"));
         return "login";
     }
 

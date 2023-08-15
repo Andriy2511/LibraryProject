@@ -3,7 +3,7 @@ package com.example.library.controller;
 import com.example.library.DTO.ReaderDTO;
 import com.example.library.model.Reader;
 import com.example.library.service.IRoleService;
-import com.example.library.service.implementation.IReaderService;
+import com.example.library.service.implementation.ReaderService;
 
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -21,12 +21,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class RegistrationController {
 
-    private final IReaderService readerService;
+    private final ReaderService readerService;
     private final IRoleService roleService;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public RegistrationController(IReaderService readerService, IRoleService roleService, PasswordEncoder passwordEncoder){
+    public RegistrationController(ReaderService readerService, IRoleService roleService, PasswordEncoder passwordEncoder){
         this.readerService = readerService;
         this.roleService = roleService;
         this.passwordEncoder = passwordEncoder;

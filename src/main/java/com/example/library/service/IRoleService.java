@@ -1,5 +1,6 @@
 package com.example.library.service;
 
+import com.example.library.model.Reader;
 import com.example.library.model.Role;
 
 import java.util.List;
@@ -24,4 +25,6 @@ public interface IRoleService {
      * @return A list of Role objects with the specified name.
      */
     List<Role> findAllRoleByName(String name);
+
+    boolean isUserContainRole(Reader reader, String roleName);
 }

@@ -11,11 +11,11 @@ import java.util.List;
 
 @Service
 @Slf4j
-public class IReaderService implements com.example.library.service.IReaderService {
+public class ReaderService implements com.example.library.service.IReaderService {
     ReaderRepository readerRepository;
 
     @Autowired
-    public IReaderService(ReaderRepository readerRepository){
+    public ReaderService(ReaderRepository readerRepository){
         this.readerRepository = readerRepository;
     }
 
@@ -50,7 +50,5 @@ public class IReaderService implements com.example.library.service.IReaderServic
     }
 
     @Override
-    public List<Reader> findAllReadersByRoles(List<Role> roleList) {
-        return readerRepository.findAllByRolesIn(roleList);
-    }
+    public List<Reader> findAllReadersByRoles(List<Role> roleList) {return readerRepository.findAllByRolesIn(roleList);}
 }

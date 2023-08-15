@@ -1,5 +1,6 @@
 package com.example.library.service.implementation;
 
+import com.example.library.model.Reader;
 import com.example.library.model.Role;
 import com.example.library.repository.RoleRepository;
 import com.example.library.service.IRoleService;
@@ -27,5 +28,16 @@ public class RoleService implements IRoleService {
     @Override
     public List<Role> findAllRoleByName(String name){
         return roleRepository.findAllByName(name);
+    }
+
+    @Override
+    public boolean isUserContainRole(Reader reader, String roleName){
+        boolean isContain;
+        if(reader != null) {
+            isContain = reader.getRoles().stream().anyMatch(role -> role.getName().equals(roleName));
+        } else {
+            isContain = false;
+        }
+        return isContain;
     }
 }
