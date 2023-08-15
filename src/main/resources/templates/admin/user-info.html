@@ -3,42 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <title>User Information</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
 </head>
 <body>
-<h2>User Information</h2>
-<div th:if="${reader}">
-    <p><strong>Name:</strong> <span th:text="${reader.username}"></span></p>
-    <p><strong>Email:</strong> <span th:text="${reader.email}"></span></p>
-    <p><strong>Status blocked:</strong>
-        <span th:text="${reader.blocked}"></span>
-    </p>
-    <p><strong>Roles:</strong>
-        <span th:each="role, iterable : ${reader.roles}">
-            <span th:text="${role.name}"></span>
-            <span th:if="${!iterable.last}">, </span>
-        </span>
-    </p>
+<div th:replace="admin/admin-header-panel :: admin-panel"></div>
+<div class="container mt-5">
+    <h2>User Information</h2>
+    <div th:if="${reader}" class="mb-4">
+        <p><strong>Name:</strong> <span th:text="${reader.username}"></span></p>
+        <p><strong>Email:</strong> <span th:text="${reader.email}"></span></p>
+        <p><strong>Status blocked:</strong> <span th:text="${reader.blocked}"></span></p>
+        <p><strong>Roles:</strong>
+            <span th:each="role, iterable : ${reader.roles}">
+                <span th:text="${role.name}"></span>
+                <span th:if="${!iterable.last}">, </span>
+            </span>
+        </p>
+    </div>
+    <div th:if="${reader.orders.size() > 0}">
+        <h3>User Orders:</h3>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Book name</th>
+                <th>Order Date</th>
+                <th>Return Date</th>
+                <th>Is book returned</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order : ${reader.orders}">
+                <td th:text="${order.book.title}"></td>
+                <td th:text="${order.orderDate}"></td>
+                <td th:text="${order.returnDate}"></td>
+                <td th:text="${order.returned}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:unless="${reader}">
+        <p>User not found.</p>
+    </div>
+    <a th:href="@{/reader/showUserList}" class="btn btn-primary mt-3">Back to User List</a>
 </div>
-<div th:if="${reader.orders.size() > 0}">
-    <table>
-        <caption><b> User Orders: </b></caption>
-        <tr>
-            <th>Book name</th>
-            <th>Order Date</th>
-            <th>Return Date</th>
-            <th>Is book returned</th>
-        </tr>
-        <tr th:each="order : ${reader.orders}">
-            <td th:text="${order.book.title}"></td>
-            <td th:text="${order.orderDate}"></td>
-            <td th:text="${order.returnDate}"></td>
-            <td th:text="${order.returned}"></td>
-        </tr>
-    </table>
-</div>
-<div th:unless="${reader}">
-    <p>User not found.</p>
-</div>
-<a th:href="@{/templates/reader/showUserList}">Back to User List</a>
 </body>
 </html>

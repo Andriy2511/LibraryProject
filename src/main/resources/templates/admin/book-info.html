@@ -3,24 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>Book Information</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
 </head>
 <body>
-<h2>Book Information</h2>
-<div th:if="${book}">
-    <p><strong>Title:</strong> <span th:text="${book.title}"></span></p>
-    <p th:if="${book.authors.size() > 0}"><strong>Authors:</strong>
-        <span th:each="author, iterable : ${book.authors}">
-            <span><a th:href="@{/catalog/authorInfo/{id}(id=${author.id})}" th:text="${author.firstName + author.lastName}"></a></span>
-            <span th:if="${!iterable.last}">, </span>
-        </span>
-    </p>
-    <p><strong>Publication date:</strong> <span th:text="${book.publicationDate}"></span></p>
-    <p><strong>Photo:</strong> <span th:text="${book.photo}"></span></p>
-    <p><strong>Description:</strong> <span th:text="${book.description}"></span></p>
+<div th:replace="admin/admin-header-panel :: admin-panel"></div>
+<div class="container mt-5">
+    <h2>Book Information</h2>
+    <div th:if="${book}" class="mb-4">
+        <p><strong>Title:</strong> <span th:text="${book.title}"></span></p>
+        <p th:if="${book.authors.size() > 0}"><strong>Authors:</strong>
+            <span th:each="author, iterable : ${book.authors}">
+                <span><a th:href="@{/catalog/authorInfo/{id}(id=${author.id})}" th:text="${author.firstName + ' ' + author.lastName}"></a></span>
+                <span th:if="${!iterable.last}">, </span>
+            </span>
+        </p>
+        <p><strong>Publication date:</strong> <span th:text="${book.publicationDate}"></span></p>
+        <p><strong>Photo:</strong> <span th:text="${book.photo}"></span></p>
+        <p><strong>Description:</strong> <span th:text="${book.description}"></span></p>
+    </div>
+    <div th:unless="${book}">
+        <p>Book not found.</p>
+    </div>
+    <a th:href="@{/admin/showBookList}" class="btn btn-primary">Back to Books List</a>
 </div>
-<div th:unless="${book}">
-    <p>Book not found.</p>
-</div>
-<a th:href="@{/admin/showBookList}">Back to Books List</a>
 </body>
 </html>

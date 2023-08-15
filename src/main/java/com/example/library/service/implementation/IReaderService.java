@@ -3,12 +3,14 @@ package com.example.library.service.implementation;
 import com.example.library.model.Reader;
 import com.example.library.model.Role;
 import com.example.library.repository.ReaderRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Slf4j
 public class IReaderService implements com.example.library.service.IReaderService {
     ReaderRepository readerRepository;
 

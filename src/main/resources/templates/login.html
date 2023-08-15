@@ -1,29 +1,45 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:background-image="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+<!--    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.2.0/css/all.css'>-->
+<!--    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css'>-->
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+
 </head>
 <body>
-<h1>Login</h1>
-<form th:action="@{/authorize(error=true)}" th:object="${readerDTO}" method="post">
-    <div>
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" th:field="*{username}" required>
+<div class="background-image"></div>
+<div class="container">
+    <div class="screen">
+        <div class="screen__content">
+            <form th:action="@{/authorize(error=true)}" th:object="${readerDTO}" method="post" class="login">
+                <div class="login__field">
+                    <i class="login__icon fas fa-user"></i>
+                    <input type="text" id="username" name="username" th:field="*{username}" class="login__input" placeholder="User name" required>
+                </div>
+                <div class="login__field">
+                    <i class="login__icon fas fa-lock"></i>
+                    <input type="password" id="password" name="password" th:field="*{password}" class="login__input" placeholder="Password" required>
+                </div>
+                <div th:if="${param.error}">
+                    <p style="color: red;">Unable to login. Check your username and password.</p>
+                </div>
+                <button class="button login__submit">
+                    <span class="button__text">Log In Now</span>
+                    <i class="button__icon fas fa-chevron-right"></i>
+                </button>
+                <br><p><b>New here? Click<a th:href="@{/registration}"> here</a> to register.</b></p>
+            </form>
+        </div>
+        <!--login form -->
+        <div class="screen__background">
+            <span class="screen__background__shape screen__background__shape4"></span>
+            <span class="screen__background__shape screen__background__shape3"></span>
+            <span class="screen__background__shape screen__background__shape2"></span>
+            <span class="screen__background__shape screen__background__shape1"></span>
+        </div>
     </div>
-    <div>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" th:field="*{password}" required>
-    </div>
-
-    <div th:if="${param.error}">
-        <p style="color: red;">Unable to login. Check your username and password.</p>
-    </div>
-
-    <button type="submit">Login</button>
-    <p>New here? Click<a th:href="@{/registration}"> here</a> to register.</p>
-</form>
+</div>
 </body>
 </html>

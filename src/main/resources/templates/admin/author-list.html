@@ -3,16 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <title>Author List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+    <style>
+        table {
+            width: 50%;
+            border-collapse: collapse;
+            margin: 20px auto;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-<table>
-    <tr>
-        <th>Author name</th>
-    </tr>
-    <tr th:each="author : ${authors}">
-        <td><a th:href="@{/catalog/authorInfo/{id}(id=${author.id})}"  th:text="${author.firstName + ' ' + author.lastName}"></a></td>
-    </tr>
-</table>
-<a th:href="@{/admin/showAuthorList}">Show author list</a>
+<div th:replace="admin/admin-header-panel :: admin-panel"></div>
+<div class="container mt-5">
+    <h2>Author List</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Author name</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="author : ${authors}">
+            <td><a th:href="@{/catalog/authorInfo/{id}(id=${author.id})}" th:text="${author.firstName + ' ' + author.lastName}"></a></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a th:href="@{/admin/showAuthorList}" class="btn btn-primary">Show author list</a>
+</div>
 </body>
 </html>

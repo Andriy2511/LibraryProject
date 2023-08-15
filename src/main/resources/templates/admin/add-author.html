@@ -2,17 +2,27 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Add Author</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
 </head>
 <body>
-<h2>Add a new author</h2>
-<form th:action="@{/admin/addAuthor}" method="post" th:object="${author}">
-    <label for="firstName">First name:</label>
-    <input type="text" id="firstName" name="firstName" th:field="*{firstName}"><br>
+<div th:replace="admin/admin-header-panel :: admin-panel"></div>
+<div class="container mt-5">
+    <h2 class="mb-4">Add a new author</h2>
+    <form th:action="@{/admin/addAuthor}" method="post" th:object="${author}">
+        <div class="form-group">
+            <label for="firstName">First name:</label>
+            <input type="text" class="form-control" id="firstName" name="firstName" th:field="*{firstName}">
+        </div>
 
-    <label for="lastName">Last name:</label>
-    <input type="text" id="lastName" name="lastName" th:field="*{lastName}"><br>
+        <div class="form-group">
+            <label for="lastName">Last name:</label>
+            <input type="text" class="form-control" id="lastName" name="lastName" th:field="*{lastName}">
+        </div>
 
-    <button type="submit">Add Author</button>
-</form>
+        <button type="submit" class="btn btn-primary">Add Author</button>
+    </form>
+</div>
 </body>
 </html>

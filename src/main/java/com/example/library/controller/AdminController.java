@@ -3,8 +3,8 @@ package com.example.library.controller;
 import com.example.library.DTO.BookDTO;
 import com.example.library.model.*;
 import com.example.library.service.*;
-import com.example.library.service.implementation.*;
 import com.example.library.service.implementation.IReaderService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +14,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
+@Slf4j
 public class AdminController {
 
     private final IReaderService readerService;
@@ -104,7 +105,7 @@ public class AdminController {
             reader.setBlocked(!reader.isBlocked());
             readerService.saveReader(reader);
         }
-        return "redirect:/user/showUserList";
+        return "redirect:/admin/showUserList";
     }
 
     /**
@@ -130,9 +131,8 @@ public class AdminController {
     @GetMapping("/userInfo/{id}")
     public String showUserInfo(@PathVariable Long id, Model model) {
         Reader reader = readerService.findReaderById(id);
+        log.info(String.valueOf(reader));
         model.addAttribute("reader", reader);
         return "admin/user-info";
     }
-
-
 }

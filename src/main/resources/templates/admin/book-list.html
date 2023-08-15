@@ -3,25 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <title>Book List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
 </head>
 <body>
-<table>
-    <tr>
-        <th>Title</th>
-        <th>Photo</th>
-        <th>Publication Date</th>
-        <th>Description</th>
-        <th>Count</th>
-            </tr>
-    <tr th:each="book : ${books}">
-        <td><a th:href="@{/book/bookInfo/{id}(id=${book.id})}" th:text="${book.title}"></a></td>
-        <td th:text="${book.photo}"></td>
-        <td th:text="${#dates.format(book.publicationDate, 'dd-MM-yyyy')}"></td>
-        <td th:text="${book.description}"></td>
-        <td th:if="${book.getBookCount() != null}" th:text="${book.getBookCount().getCount()}"></td>
-        <td th:unless="${book.getBookCount() != null}">0</td>
-    </tr>
-</table>
-<a th:href="@{/admin/showBookList}">Add New Book</a>
+<div th:replace="admin/admin-header-panel :: admin-panel"></div>
+<div class="container mt-5">
+    <h2>Book List</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Photo</th>
+            <th scope="col">Publication Date</th>
+            <th scope="col">Description</th>
+            <th scope="col">Count</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="book : ${books}">
+            <td><a th:href="@{/catalog/bookInfo/{id}(id=${book.id})}" th:text="${book.title}"></a></td>
+            <td th:text="${book.photo}"></td>
+            <td th:text="${#dates.format(book.publicationDate, 'dd-MM-yyyy')}"></td>
+            <td th:text="${book.description}"></td>
+            <td th:if="${book.getBookCount() != null}" th:text="${book.getBookCount().getCount()}"></td>
+            <td th:unless="${book.getBookCount() != null}">0</td>
+        </tr>
+        </tbody>
+    </table>
+    <a th:href="@{/admin/showAddBookForm}" class="btn btn-primary">Add New Book</a>
+</div>
 </body>
 </html>

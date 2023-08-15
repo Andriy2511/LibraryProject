@@ -2,24 +2,34 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-<table>
-    <tr>
-        <th>Book Title</th>
-        <th>Order Date</th>
-        <th>Return Date</th>
-        <th>Is order returned</th>
-    </tr>
-    <tr th:each="order : ${orders}">
-        <td><a th:href="@{/catalog/bookInfo/{id}(id=${order.book.id})}" th:text="${order.book.title}"></a></td>
-        <td th:text="${order.orderDate}"></td>
-        <td th:text="${order.returnDate}"></td>
-        <td th:text="${order.returned}"></td>
-    </tr>
-    </tr>
-</table>
-<a th:href="@{/catalog/showBookCatalog}">Show book catalog</a>
+<div class="container mt-5">
+    <h2 class="mb-3">Order List</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Book Title</th>
+            <th scope="col">Order Date</th>
+            <th scope="col">Return Date</th>
+            <th scope="col">Is Order Returned</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order : ${orders}">
+            <td>
+                <a th:href="@{/catalog/bookInfo/{id}(id=${order.book.id})}" th:text="${order.book.title}"></a>
+            </td>
+            <td th:text="${order.orderDate}"></td>
+            <td th:text="${order.returnDate}"></td>
+            <td th:text="${order.returned}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <a class="btn btn-secondary" th:href="@{/catalog/showBookCatalog}">Show Book Catalog</a>
+</div>
 </body>
 </html>

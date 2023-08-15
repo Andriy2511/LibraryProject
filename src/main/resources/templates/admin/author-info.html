@@ -3,27 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <title>Author Information</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
 </head>
 <body>
-<h2>Author Information</h2>
-<div th:if="${author}">
-    <p><strong>First name:</strong> <span th:text="${author.firstName}"></span></p>
-    <p><strong>Last name:</strong> <span th:text="${author.lastName}"></span></p>
+<div th:replace="admin/admin-header-panel :: admin-panel"></div>
+<div class="container mt-5">
+    <h2 class="mb-3">Author Information</h2>
+
+    <div th:if="${author}" class="mb-3">
+        <p><strong>First name:</strong> <span th:text="${author.firstName}"></span></p>
+        <p><strong>Last name:</strong> <span th:text="${author.lastName}"></span></p>
+    </div>
+
+    <div th:if="${author.books.size() > 0}" class="mb-3">
+        <h4>Author books:</h4>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Book title</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="book : ${author.books}">
+                <td><a th:href="@{/catalog/bookInfo/{id}(id=${book.id})}" th:text="${book.title}"></a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:unless="${author}" class="mb-3">
+        <p>Author not found.</p>
+    </div>
+
+    <a th:href="@{/admin/showAuthorList}" class="btn btn-primary">Back to Author List</a>
 </div>
-<div th:if="${author.books.size() > 0}">
-    <table>
-        <caption><b> Author books: </b></caption>
-        <tr>
-            <th>Book title</th>
-        </tr>
-        <tr th:each="book : ${author.books}">
-            <td><a th:href="@{/catalog/bookInfo/{id}(id=${book.id})}"  th:text="${book.title}"></a></td>
-        </tr>
-    </table>
-</div>
-<div th:unless="${author}">
-    <p>Author not found.</p>
-</div>
-<a th:href="@{/admin/showAuthorList}">Back to Author List</a>
 </body>
 </html>

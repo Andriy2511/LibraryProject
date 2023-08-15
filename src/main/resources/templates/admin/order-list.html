@@ -3,25 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <title>Order List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
 </head>
 <body>
-<table>
-    <tr>
-        <th>Book Title</th>
-        <th>Reader</th>
-        <th>Order Date</th>
-        <th>Return Date</th>
-        <th>Is order returned</th>
-    </tr>
-    <tr th:each="order : ${orders}">
-        <td><a th:href="@{/book/bookInfo/{id}(id=${order.book.id})}" th:text="${order.book.title}"></a></td>
-        <td><a th:href="@{/templates/reader/userInfo/{id}(id=${order.reader.id})}" th:text="${order.reader.username}"></a></td>
-        <td th:text="${order.orderDate}"></td>
-        <td th:text="${order.returnDate}"></td>
-        <td th:text="${order.returned}"></td>
-    </tr>
-    </tr>
-</table>
-<a th:href="@{/admin/showBookList}">Book list</a>
+<div th:replace="admin/admin-header-panel :: admin-panel"></div>
+<div class="container mt-5">
+    <h2>Order List</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Book Title</th>
+            <th scope="col">Reader</th>
+            <th scope="col">Order Date</th>
+            <th scope="col">Return Date</th>
+            <th scope="col">Is Order Returned</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order : ${orders}">
+            <td><a th:href="@{/catalog/bookInfo/{id}(id=${order.book.id})}" th:text="${order.book.title}"></a></td>
+            <td><a th:href="@{/admin/userInfo/{id}(id=${order.reader.id})}" th:text="${order.reader.username}"></a></td>
+            <td th:text="${order.orderDate}"></td>
+            <td th:text="${order.returnDate}"></td>
+            <td th:text="${order.returned}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <a th:href="@{/admin/showBookList}" class="btn btn-primary">Book List</a>
+</div>
 </body>
 </html>
