@@ -16,20 +16,26 @@
             <th scope="col">Book Title</th>
             <th scope="col">Order Date</th>
             <th scope="col">Return Date</th>
-            <th scope="col">Action</th>
+            <th scope="col">Submit my order</th>
+            <th scope="col">Cancel my order</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="order : ${unconfirmedOrders}">
-            <td>
-                <a th:href="@{/catalog/bookInfo/{id}(id=${order.book.id})}" th:text="${order.book.title}"></a>
-            </td>
-            <td th:text="${order.orderDate}"></td>
-            <td th:text="${order.returnDate}"></td>
-            <td>
-                <form th:action="@{/user/confirmOrder/{id}(id=${order.book.id})}" method="post">
+            <form th:action="@{/user/confirmOrder/{id}(id=${order.book.id})}" method="post" th:object="${orderDTO}">
+                <td>
+                    <a th:href="@{/catalog/bookInfo/{id}(id=${order.book.id})}" th:text="${order.book.title}"></a>
+                </td>
+                <td th:text="${order.orderDate}"></td>
+                <td>
+                    <label for="returnDate">Select Return Date:</label>
+                    <input type="date" class="form-control" id="returnDate" th:field="*{returnDate}">
+                </td>
+                <td>
                     <input type="submit" value="Confirm my order" class="btn btn-sm btn-success">
-                </form>
+                </td>
+            </form>
+            <td>
                 <form th:action="@{/user/cancelOrder/{id}(id=${order.book.id})}" method="post">
                     <input type="submit" value="Cancel my order" class="btn btn-sm btn-danger">
                 </form>

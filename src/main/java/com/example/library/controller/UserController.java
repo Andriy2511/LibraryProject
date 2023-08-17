@@ -1,5 +1,8 @@
 package com.example.library.controller;
 
+import com.example.library.DTO.BookDTO;
+import com.example.library.DTO.OrderDTO;
+import com.example.library.DTO.ReaderDTO;
 import com.example.library.model.Order;
 import com.example.library.model.Reader;
 import com.example.library.service.IBookService;
@@ -7,7 +10,6 @@ import com.example.library.service.IOrderService;
 import com.example.library.service.IReaderService;
 import com.example.library.service.implementation.ReaderService;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -15,8 +17,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -42,15 +44,43 @@ public class UserController {
         return "reader/reader-order-list";
     }
 
+//    @PostMapping("/confirmOrder/{bookId}/{returnDate}")
+//    public String confirmNewOrder(
+//            @PathVariable Long bookId,
+//            @PathVariable String returnDate,
+//            @AuthenticationPrincipal Reader reader,
+//            @SessionAttribute("unconfirmedOrders") List<Order> unconfirmedOrders) {
+//
+//        removeOrderFromListByBookId(unconfirmedOrders, bookId);
+//
+//        Order order = new Order();
+//        order.setReader(reader);
+//        order.setBook(bookService.findBookById(bookId));
+//        order.setReturned(false);
+//        order.setOrderDate(getCurrentDate());
+//        order.setReturnDate(java.sql.Date.valueOf(returnDate));
+//        orderService.saveOrder(order);
+//
+//        return "redirect:/user/showOrderConfirmationPage";
+//    }
+
     @PostMapping("/confirmOrder/{bookId}")
-    public String confirmNewOrder(@PathVariable Long bookId, @AuthenticationPrincipal Reader reader,
-                                  @SessionAttribute("unconfirmedOrders") List<Order> unconfirmedOrders) {
+    public String confirmNewOrder(
+            @PathVariable Long bookId,
+            @ModelAttribute("orderDTO") OrderDTO orderDTO,
+            @AuthenticationPrincipal Reader reader,
+            @SessionAttribute("unconfirmedOrders") List<Order> unconfirmedOrders) {
+
         removeOrderFromListByBookId(unconfirmedOrders, bookId);
+
         Order order = new Order();
         order.setReader(reader);
         order.setBook(bookService.findBookById(bookId));
         order.setReturned(false);
+        order.setOrderDate(getCurrentDate());
+        order.setReturnDate(java.sql.Date.valueOf(orderDTO.getReturnDate()));
         orderService.saveOrder(order);
+
         return "redirect:/user/showOrderConfirmationPage";
     }
 
@@ -65,15 +95,19 @@ public class UserController {
     public String showConfirmOrdersPage(Model model, @SessionAttribute("unconfirmedOrders") List<Order> unconfirmedOrders) {
         log.info("Unconfirmed Orders list is: {}", unconfirmedOrders);
         model.addAttribute("unconfirmedOrders", unconfirmedOrders);
+        model.addAttribute("orderDTO", new OrderDTO());
         return "reader/order-confirmation-page";
     }
 
     @PostMapping("/addOrder/{bookId}")
-    public String addNewOrder(@SessionAttribute("unconfirmedOrders") List<Order> unconfirmedOrders, @PathVariable Long bookId, @AuthenticationPrincipal Reader reader) {
+    public String addNewOrder(@SessionAttribute("unconfirmedOrders") List<Order> unconfirmedOrders,
+                              @PathVariable Long bookId, @AuthenticationPrincipal Reader reader) {
         Order order = new Order();
         order.setReader(reader);
         order.setBook(bookService.findBookById(bookId));
         order.setReturned(false);
+        order.setOrderDate(getCurrentDate());
+        order.setReturnDate(getCurrentDate());
         unconfirmedOrders.add(order);
         return "redirect:/catalog/showBookCatalog";
     }
@@ -85,5 +119,10 @@ public class UserController {
                 break;
             }
         }
+    }
+
+    private Date getCurrentDate(){
+        LocalDate currentDate = LocalDate.now();
+        return java.sql.Date.valueOf(currentDate);
     }
 }
