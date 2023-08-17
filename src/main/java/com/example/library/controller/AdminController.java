@@ -9,7 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @Controller
@@ -66,9 +71,16 @@ public class AdminController {
     }
 
     @PostMapping("/addBook")
-    public String addBook(@ModelAttribute("bookDTO") BookDTO bookDTO, @RequestParam("authors") List<Long> authorId) {
+    public String addBook(@ModelAttribute("bookDTO") BookDTO bookDTO,
+                          @RequestParam("authors") List<Long> authorId,
+                          @RequestParam("photoFile") MultipartFile photoFile) {
+
         List<Author> selectedAuthors = authorService.findAllAuthorsById(authorId);
         bookDTO.setAuthors(selectedAuthors);
+
+        bookDTO.setPhoto(photoFile != null && !photoFile.isEmpty() ? photoFile.getOriginalFilename() : "without photo");
+        addPhotoToFolder(photoFile);
+
         Book book = BookDTO.mapToBook(bookDTO);
         bookService.addBook(book);
 
@@ -77,7 +89,7 @@ public class AdminController {
         bookCount.setCount(bookDTO.getBookCount());
         bookCountService.saveBookCount(bookCount);
 
-        return "redirect:/book/showAddBookForm";
+        return "redirect:/admin/showAddBookForm";
     }
 
     /**
@@ -134,5 +146,21 @@ public class AdminController {
         log.info(String.valueOf(reader));
         model.addAttribute("reader", reader);
         return "admin/user-info";
+    }
+
+    /**
+     * The method saves photo for book to the "resources/static/bookphoto/" folder
+     * @param photoFile A photo which has to be stored
+     */
+    private void addPhotoToFolder(MultipartFile photoFile){
+        if (photoFile != null && !photoFile.isEmpty()) {
+            try {
+                String fileName = photoFile.getOriginalFilename();
+                Path filePath = Paths.get("src/main/resources/static/bookphoto/" + fileName);
+                photoFile.transferTo(filePath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

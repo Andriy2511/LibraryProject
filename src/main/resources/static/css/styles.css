@@ -37,7 +37,7 @@
 }
 
 .background-image {
-    background-image: url('/images/AuthorizationBackground.jpg');
+    background-image: url('/static/images/AuthorizationBackground.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
