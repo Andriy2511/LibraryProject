@@ -14,10 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
@@ -44,33 +46,34 @@ public class UserController {
         return "reader/reader-order-list";
     }
 
-//    @PostMapping("/confirmOrder/{bookId}/{returnDate}")
-//    public String confirmNewOrder(
-//            @PathVariable Long bookId,
-//            @PathVariable String returnDate,
-//            @AuthenticationPrincipal Reader reader,
-//            @SessionAttribute("unconfirmedOrders") List<Order> unconfirmedOrders) {
-//
-//        removeOrderFromListByBookId(unconfirmedOrders, bookId);
-//
-//        Order order = new Order();
-//        order.setReader(reader);
-//        order.setBook(bookService.findBookById(bookId));
-//        order.setReturned(false);
-//        order.setOrderDate(getCurrentDate());
-//        order.setReturnDate(java.sql.Date.valueOf(returnDate));
-//        orderService.saveOrder(order);
-//
-//        return "redirect:/user/showOrderConfirmationPage";
-//    }
-
+    /**
+     * Confirms a new order and adds it to the database.
+     * If the return date isn't after tomorrow,
+     * the order-confirmation-page is displayed with an appropriate message.
+     *
+     * @param bookId The ID of the book for which the order is being confirmed.
+     * @param orderDTO The data transfer object containing order details, including the return date.
+     * @param reader The currently authenticated reader performing the order confirmation.
+     * @param unconfirmedOrders The list of unconfirmed orders stored in the session.
+     * @param model The Spring MVC model for rendering views and attributes.
+     * @return A view name to redirect after the order confirmation process.
+     */
     @PostMapping("/confirmOrder/{bookId}")
     public String confirmNewOrder(
             @PathVariable Long bookId,
             @ModelAttribute("orderDTO") OrderDTO orderDTO,
             @AuthenticationPrincipal Reader reader,
-            @SessionAttribute("unconfirmedOrders") List<Order> unconfirmedOrders) {
+            @SessionAttribute("unconfirmedOrders") List<Order> unconfirmedOrders,
+            Model model) {
 
+        if (!orderDTO.getReturnDate().after(new Date())) {
+            model.addAttribute("unconfirmedOrders", unconfirmedOrders);
+            LocalDate tomorrow = LocalDate.now().plusDays(1);
+            model.addAttribute("orderDTO", new OrderDTO(Date.from(tomorrow.atStartOfDay(ZoneId.systemDefault()).toInstant())));
+            model.addAttribute("incorrectDate", "You cannot set present or past date for your order");
+            return "reader/order-confirmation-page";
+        }
+        
         removeOrderFromListByBookId(unconfirmedOrders, bookId);
 
         Order order = new Order();
@@ -78,7 +81,7 @@ public class UserController {
         order.setBook(bookService.findBookById(bookId));
         order.setReturned(false);
         order.setOrderDate(getCurrentDate());
-        order.setReturnDate(java.sql.Date.valueOf(orderDTO.getReturnDate()));
+        order.setReturnDate(orderDTO.getReturnDate());
         orderService.saveOrder(order);
 
         return "redirect:/user/showOrderConfirmationPage";
@@ -95,7 +98,7 @@ public class UserController {
     public String showConfirmOrdersPage(Model model, @SessionAttribute("unconfirmedOrders") List<Order> unconfirmedOrders) {
         log.info("Unconfirmed Orders list is: {}", unconfirmedOrders);
         model.addAttribute("unconfirmedOrders", unconfirmedOrders);
-        model.addAttribute("orderDTO", new OrderDTO());
+        model.addAttribute("orderDTO", new OrderDTO(new Date()));
         return "reader/order-confirmation-page";
     }
 
