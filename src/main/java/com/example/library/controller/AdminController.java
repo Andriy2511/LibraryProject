@@ -8,9 +8,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -57,6 +59,12 @@ public class AdminController {
         return "admin/author-list";
     }
 
+    @GetMapping("/showBookList")
+    public String showBookList(Model model) {
+        model.addAttribute("books", bookService.findAllBooks());
+        return "admin/book-list";
+    }
+
     @GetMapping("/showAddBookForm")
     public String showAddBookForm(Model model) {
         model.addAttribute("bookDTO", new BookDTO());
@@ -64,22 +72,29 @@ public class AdminController {
         return "admin/add-book";
     }
 
-    @GetMapping("/showBookList")
-    public String showBookList(Model model) {
-        model.addAttribute("books", bookService.findAllBooks());
-        return "admin/book-list";
-    }
-
     @PostMapping("/addBook")
-    public String addBook(@ModelAttribute("bookDTO") BookDTO bookDTO,
-                          @RequestParam("authors") List<Long> authorId,
-                          @RequestParam("photoFile") MultipartFile photoFile) {
+    public String addBook(@ModelAttribute("bookDTO") @Valid BookDTO bookDTO,
+                          BindingResult bindingResult,
+                          @RequestParam(value = "authors", required = false) List<Long> authorsId,
+                          Model model) {
 
-        List<Author> selectedAuthors = authorService.findAllAuthorsById(authorId);
+        if (authorsId == null || authorsId.isEmpty()) {
+            bindingResult.rejectValue("authors", "error.authors", "Select at least one author");
+        }
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("bookDTO", new BookDTO());
+            model.addAttribute("allAuthors", authorService.findAllAuthors());
+            if(bindingResult.hasFieldErrors("authors")) {
+                model.addAttribute("incorrectAuthors", "Select at least one author");
+            }
+            return "/admin/add-book";
+        }
+
+        List<Author> selectedAuthors = authorService.findAllAuthorsById(authorsId);
         bookDTO.setAuthors(selectedAuthors);
 
-        bookDTO.setPhoto(photoFile != null && !photoFile.isEmpty() ? photoFile.getOriginalFilename() : "without photo");
-        addPhotoToFolder(photoFile);
+        addPhotoToFolder(bookDTO.getPhoto());
 
         Book book = BookDTO.mapToBook(bookDTO);
         bookService.addBook(book);

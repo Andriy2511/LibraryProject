@@ -2,9 +2,12 @@ package com.example.library.DTO;
 
 import com.example.library.model.Author;
 import com.example.library.model.Book;
+import com.sun.istack.Interned;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -25,17 +28,19 @@ public class BookDTO {
     private String title;
 
     @NotNull(message = "The book must have an author")
-    @ToString.Exclude
     private List<Author> authors;
-    private String photo;
+
+    private MultipartFile photo;
     @NotBlank(message = "The book must have a description")
     private String description;
 
     private String publicationDate;
 
+    @NotNull(message = "Count of book cannot be void or negative")
+    @Min(value = 0, message = "Count of book cannot be void or negative")
     private Integer bookCount;
 
-    public BookDTO(String title, String photo, String publicationDate, String description, List<Author> authors, Integer bookCount){
+    public BookDTO(String title, MultipartFile photo, String publicationDate, String description, List<Author> authors, Integer bookCount){
         this.title = title;
         this.photo = photo;
         this.publicationDate = publicationDate;
@@ -48,7 +53,7 @@ public class BookDTO {
         Book book = new Book();
         book.setTitle(bookDTO.getTitle());
         book.setDescription(bookDTO.getDescription());
-        book.setPhoto(bookDTO.getPhoto());
+        book.setPhoto(bookDTO.getPhoto() != null && !bookDTO.getPhoto().isEmpty() ? bookDTO.getPhoto().getOriginalFilename() : "without photo");
         book.setPublicationDate(mapToDate(bookDTO.getPublicationDate()));
         book.setAuthors(bookDTO.getAuthors());
         return book;
