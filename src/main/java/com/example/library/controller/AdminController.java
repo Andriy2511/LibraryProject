@@ -48,8 +48,7 @@ public class AdminController {
     }
 
     @PostMapping("/addAuthor")
-    public String addAuthor(@ModelAttribute("author") @Valid Author author, BindingResult result, Model model) {
-        System.out.println("BindingResult in  addAuthor method: " + result.hasErrors());
+    public String addAuthor(@ModelAttribute("author") @Valid Author author, BindingResult result) {
         if(result.hasErrors()) {
             return "admin/add-author";
         }
@@ -81,8 +80,6 @@ public class AdminController {
                           BindingResult bindingResult,
                           @RequestParam(value = "authors", required = false) List<Long> authorsId,
                           Model model) {
-
-        System.out.println("addBook method Errors in BRes: " + bindingResult.hasErrors());
 
         if (authorsId == null || authorsId.isEmpty()) {
             bindingResult.rejectValue("authors", "error.authors", "Select at least one author");

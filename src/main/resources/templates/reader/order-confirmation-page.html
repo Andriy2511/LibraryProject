@@ -30,7 +30,7 @@
                 <td>
                     <label for="returnDate">Select Return Date:</label>
                     <input type="date" class="form-control" id="returnDate" th:field="*{returnDate}">
-                    <span th:if="${incorrectDate}" class="error" th:text="${incorrectDate}"></span>
+                    <span th:if="${#fields.hasErrors('returnDate')}" th:errors="*{returnDate}">Error name</span>
                 </td>
                 <td>
                     <input type="submit" value="Confirm my order" class="btn btn-sm btn-success">

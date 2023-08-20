@@ -68,13 +68,8 @@ public class UserController {
             @SessionAttribute("unconfirmedOrders") List<Order> unconfirmedOrders,
             Model model) {
 
-        System.out.println("In class UserController"  + bindingResult.hasErrors());
-
-        if (!orderDTO.getReturnDate().after(new Date())) {
+        if(bindingResult.hasErrors()){
             model.addAttribute("unconfirmedOrders", unconfirmedOrders);
-            LocalDate tomorrow = LocalDate.now().plusDays(1);
-            model.addAttribute("orderDTO", new OrderDTO(Date.from(tomorrow.atStartOfDay(ZoneId.systemDefault()).toInstant())));
-            model.addAttribute("incorrectDate", "You cannot set present or past date for your order");
             return "reader/order-confirmation-page";
         }
         

@@ -18,7 +18,7 @@ public class OrderDTO {
     private Date orderDate;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Future
+    @Future(message = "ou cannot set present or past date for your order")
     private Date returnDate;
     private Reader reader;
     private Book book;
@@ -26,9 +26,5 @@ public class OrderDTO {
 
     public OrderDTO(Date returnDate) {
         this.returnDate = returnDate;
-    }
-
-    public boolean isFutureDate(Date date){
-        return date.after(new Date());
     }
 }
