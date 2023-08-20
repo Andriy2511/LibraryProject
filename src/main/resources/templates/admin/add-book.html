@@ -7,7 +7,7 @@
           crossorigin="anonymous">
 </head>
 <body>
-<div th:replace="header/admin-panel"></div>
+<div th:replace="~{header/admin-panel}"></div>
 <div class="container mt-5">
     <h2 class="mb-4">Add a New Book</h2>
     <form th:action="@{/admin/addBook}" method="post" th:object="${bookDTO}" enctype="multipart/form-data">
@@ -45,7 +45,8 @@
 
         <div class="form-group">
             <label for="bookCount">Count of books:</label>
-            <input type="number" class="form-control" id="bookCount" name="bookCount" th:field="*{bookCount}" min="0" value="0" step="1">
+            <input type="number" class="form-control" id="bookCount" name="bookCount" th:field="*{bookCount}">
+<!--            <input type="number" class="form-control" id="bookCount" name="bookCount" th:field="*{bookCount}" min="0" value="0" step="1">-->
             <span th:if="${#fields.hasErrors('bookCount')}" th:errors="*{bookCount}">Error name</span>
         </div>
         <button type="submit" class="btn btn-primary">Add Book</button>

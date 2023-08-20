@@ -48,9 +48,13 @@ public class AdminController {
     }
 
     @PostMapping("/addAuthor")
-    public String addAuthor(@ModelAttribute("author") Author author) {
+    public String addAuthor(@ModelAttribute("author") @Valid Author author, BindingResult result, Model model) {
+        System.out.println("BindingResult in  addAuthor method: " + result.hasErrors());
+        if(result.hasErrors()) {
+            return "admin/add-author";
+        }
         authorService.addNewAuthor(author);
-        return "redirect:/author/showAddAuthorForm";
+        return "redirect:/admin/showAddAuthorForm";
     }
 
     @GetMapping("/showAuthorList")
@@ -78,12 +82,13 @@ public class AdminController {
                           @RequestParam(value = "authors", required = false) List<Long> authorsId,
                           Model model) {
 
+        System.out.println("addBook method Errors in BRes: " + bindingResult.hasErrors());
+
         if (authorsId == null || authorsId.isEmpty()) {
             bindingResult.rejectValue("authors", "error.authors", "Select at least one author");
         }
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("bookDTO", new BookDTO());
             model.addAttribute("allAuthors", authorService.findAllAuthors());
             if(bindingResult.hasFieldErrors("authors")) {
                 model.addAttribute("incorrectAuthors", "Select at least one author");

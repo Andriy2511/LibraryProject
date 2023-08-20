@@ -12,14 +12,13 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString
-//@NoArgsConstructor
-//@AllArgsConstructor
 @Slf4j
 public class OrderDTO {
     private String bookTitle;
     private Date orderDate;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Future
     private Date returnDate;
     private Reader reader;
     private Book book;

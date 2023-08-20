@@ -25,7 +25,7 @@
 </head>
 <body>
 <nav>
-    <span th:replace="${isAdmin} ? 'header/admin-panel' : 'header/reader-panel'"></span>
+    <span th:replace="~{${isAdmin} ? 'header/admin-panel' : 'header/reader-panel'}"></span>
 </nav>
 <div class="container mt-5">
     <h1 class="text-center">Catalog</h1>

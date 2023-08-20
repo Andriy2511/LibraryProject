@@ -2,7 +2,6 @@ package com.example.library.DTO;
 
 import com.example.library.model.Author;
 import com.example.library.model.Book;
-import com.sun.istack.Interned;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,7 +23,8 @@ import java.util.List;
 @Slf4j
 public class BookDTO {
     @NotBlank(message = "The name cannot be empty")
-    @Size(min = 3, message = "Name must have at least 3 letters")
+    @NotNull(message = "The name cannot be empty")
+    @Size(min = 5, message = "Name must have at least 5 letters")
     private String title;
 
     @NotNull(message = "The book must have an author")

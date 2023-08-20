@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -61,10 +62,13 @@ public class UserController {
     @PostMapping("/confirmOrder/{bookId}")
     public String confirmNewOrder(
             @PathVariable Long bookId,
-            @ModelAttribute("orderDTO") OrderDTO orderDTO,
+            @ModelAttribute("orderDTO") @Valid OrderDTO orderDTO,
+            BindingResult bindingResult,
             @AuthenticationPrincipal Reader reader,
             @SessionAttribute("unconfirmedOrders") List<Order> unconfirmedOrders,
             Model model) {
+
+        System.out.println("In class UserController"  + bindingResult.hasErrors());
 
         if (!orderDTO.getReturnDate().after(new Date())) {
             model.addAttribute("unconfirmedOrders", unconfirmedOrders);

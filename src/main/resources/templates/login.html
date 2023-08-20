@@ -8,7 +8,7 @@
 </head>
 <body>
 <nav>
-    <span th:replace="${isAdmin} ? 'header/admin-panel' : 'header/reader-panel'"></span>
+    <span th:replace="~{${isAdmin} ? 'header/admin-panel' : 'header/reader-panel'}"></span>
 </nav>
 <div class="background-image"></div>
 <div class="container">

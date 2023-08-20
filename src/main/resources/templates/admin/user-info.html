@@ -8,7 +8,7 @@
           crossorigin="anonymous">
 </head>
 <body>
-<div th:replace="header/admin-panel"></div>
+<div th:replace="~{header/admin-panel}"></div>
 <div class="container mt-5">
     <h2>User Information</h2>
     <div th:if="${reader}" class="mb-4">

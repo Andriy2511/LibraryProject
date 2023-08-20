@@ -3,6 +3,7 @@ package com.example.library.model;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 
 @Getter
 @Setter
@@ -22,5 +23,6 @@ public class BookCount {
     @ToString.Exclude
     private Book book;
 
+    @Min(value = 0, message = "Book count cannot be less then 0")
     private Integer count;
 }

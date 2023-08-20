@@ -1,6 +1,9 @@
 package com.example.library.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import lombok.*;
 import java.util.List;
 
@@ -16,7 +19,12 @@ public class Author {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "this field cannot be void")
+    @NotBlank(message = "this field cannot be void")
     private String firstName;
+
+    @NotNull(message = "this field cannot be void")
+    @NotBlank(message = "this field cannot be void")
     private String lastName;
 
     @ManyToMany(mappedBy = "authors")
