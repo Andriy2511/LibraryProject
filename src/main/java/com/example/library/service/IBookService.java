@@ -1,6 +1,7 @@
 package com.example.library.service;
 
 import com.example.library.model.Book;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -31,4 +32,12 @@ public interface IBookService {
      * @return The book corresponding to the given ID, or {@code null} if not found.
      */
     Book findBookById(Long id);
+
+    List<Book> findBooksWithSorting(String sortedField);
+
+    Page<Book> findBooksWithPagination(int page, int pageSize);
+
+    Page<Book> findBooksWithPaginationAndSorting(int page, int pageSize, String sortedField);
+
+    Long selectCountOfBooks();
 }
