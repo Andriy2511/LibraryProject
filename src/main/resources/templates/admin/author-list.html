@@ -27,6 +27,20 @@
 <div th:replace="~{header/admin-panel}"></div>
 <div class="container mt-5">
     <h2>Author List</h2>
+    <div class="pagination">
+        <div class="d-flex flex-column">
+            <div>
+                <form th:action="@{/admin/showAuthorList}" method="get">
+                    <input type="number" id="pageSize" name="pageSize" min="1">
+                    <button type="submit" class="btn btn-primary mb-2">Set records per page</button>
+                </form>
+            </div>
+            <div>
+                <a th:href="@{/admin/showAuthorList(page=${-1})}" class="btn btn-primary" role="button">Previous Page</a>
+                <a th:href="@{/admin/showAuthorList(page=${1})}" class="btn btn-primary" role="button">Next Page</a>
+            </div>
+        </div>
+    </div>
     <table class="table">
         <thead>
         <tr>

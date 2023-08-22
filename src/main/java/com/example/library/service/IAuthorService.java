@@ -39,4 +39,8 @@ public interface IAuthorService {
      * @return The author corresponding to the given ID, or {@code null} if not found.
      */
     Author findAuthorById(Long id);
+
+    Long getAuthorsCount();
+
+    List<Author> findAllAuthorsWithPagination(int page, int pageSize);
 }

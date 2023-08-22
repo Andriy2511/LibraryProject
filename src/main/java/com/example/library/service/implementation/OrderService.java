@@ -5,6 +5,8 @@ import com.example.library.model.Reader;
 import com.example.library.repository.OrderRepository;
 import com.example.library.service.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,5 +34,27 @@ public class OrderService implements IOrderService {
     @Override
     public void saveOrder(Order order){
         orderRepository.save(order);
+    }
+
+    @Override
+    public Long getOrdersCount() {
+        return orderRepository.count();
+    }
+
+    @Override
+    public Long getOrdersCountByReader(Reader reader) {
+        return orderRepository.countOrdersByReader(reader);
+    }
+
+    @Override
+    public List<Order> findOrdersByReaderWithPagination(Reader reader, int page, int pageSize) {
+        Pageable pageable = PageRequest.of(page, pageSize);
+        return orderRepository.findAllByReader(reader, pageable);
+    }
+
+    @Override
+    public List<Order> showAllOrdersWithPagination(int page, int pageSize) {
+        Pageable pageable = PageRequest.of(page, pageSize);
+        return orderRepository.findAll(pageable).getContent();
     }
 }

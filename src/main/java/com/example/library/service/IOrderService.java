@@ -32,4 +32,12 @@ public interface IOrderService {
      * @param order The order to be saved.
      */
     void saveOrder(Order order);
+
+    Long getOrdersCount();
+
+    Long getOrdersCountByReader(Reader reader);
+
+    List<Order> findOrdersByReaderWithPagination(Reader reader, int page, int pageSize);
+
+    List<Order> showAllOrdersWithPagination(int page, int pageSize);
 }

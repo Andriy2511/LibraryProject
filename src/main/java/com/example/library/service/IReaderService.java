@@ -61,5 +61,9 @@ public interface IReaderService {
      * @return A list of readers with the specified roles.
      */
     List<Reader> findAllReadersByRoles(List<Role> roleList);
+
+    List<Reader> findAllReadersByRolesWithPagination(List<Role> roleList, int numberOfPage, int recordPerPage);
+
+    Long getCountReadersByRole(Role role);
 }
 

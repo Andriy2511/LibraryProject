@@ -6,6 +6,7 @@ import com.example.library.service.IBookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -37,16 +38,6 @@ public class BookService implements IBookService {
     }
 
     @Override
-    public List<Book> findBooksWithSorting(String sortedField){
-        return bookRepository.findAll(Sort.by(sortedField));
-    }
-
-    @Override
-    public Page<Book> findBooksWithPagination(int page, int pageSize){
-        return bookRepository.findAll(PageRequest.of(page, pageSize));
-    }
-
-    @Override
     public Page<Book> findBooksWithPaginationAndSorting(int page, int pageSize, String sortedField){
         return bookRepository.findAll(PageRequest.of(page, pageSize).withSort(Sort.by(sortedField)));
     }
@@ -54,5 +45,16 @@ public class BookService implements IBookService {
     @Override
     public Long selectCountOfBooks(){
         return bookRepository.count();
+    }
+
+    @Override
+    public Long getBooksCount() {
+        return bookRepository.count();
+    }
+
+    @Override
+    public List<Book> findAllBooksWithPagination(int page, int pageSize) {
+        Pageable pageable = PageRequest.of(page, pageSize);
+        return bookRepository.findAll(pageable).getContent();
     }
 }

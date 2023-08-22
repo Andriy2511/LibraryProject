@@ -1,6 +1,7 @@
 package com.example.library.controller;
 
 import com.example.library.DTO.BookDTO;
+import com.example.library.component.ListPaginationData;
 import com.example.library.model.*;
 import com.example.library.service.*;
 import com.example.library.service.implementation.ReaderService;
@@ -29,16 +30,18 @@ public class AdminController {
     private final IBookCountService bookCountService;
     private final IOrderService orderService;
     private final IRoleService roleService;
+    private final ListPaginationData listPaginationData;
 
     @Autowired
     public AdminController(ReaderService readerService, IAuthorService authorService, IBookService bookService,
-                           IBookCountService bookCountService, IOrderService orderService, IRoleService roleService) {
+                           IBookCountService bookCountService, IOrderService orderService, IRoleService roleService, ListPaginationData listPaginationData) {
         this.readerService = readerService;
         this.authorService = authorService;
         this.bookService = bookService;
         this.bookCountService = bookCountService;
         this.orderService = orderService;
         this.roleService = roleService;
+        this.listPaginationData = listPaginationData;
     }
 
     @GetMapping("/showAddAuthorForm")
@@ -58,13 +61,15 @@ public class AdminController {
 
     @GetMapping("/showAuthorList")
     public String showAuthorList(Model model) {
-        model.addAttribute("authors", authorService.findAllAuthors());
+        listPaginationData.setTotalRecords(authorService.getAuthorsCount());
+        model.addAttribute("authors", authorService.findAllAuthorsWithPagination(listPaginationData.getPage(), listPaginationData.getPageSize()));
         return "admin/author-list";
     }
 
     @GetMapping("/showBookList")
     public String showBookList(Model model) {
-        model.addAttribute("books", bookService.findAllBooks());
+        listPaginationData.setTotalRecords(bookService.getBooksCount());
+        model.addAttribute("books", bookService.findAllBooksWithPagination(listPaginationData.getPage(), listPaginationData.getPageSize()));
         return "admin/book-list";
     }
 
@@ -117,7 +122,8 @@ public class AdminController {
      */
     @GetMapping("/showOrderList")
     public String showOrderList(Model model) {
-        model.addAttribute("orders", orderService.showAllOrders());
+        listPaginationData.setTotalRecords(orderService.getOrdersCount());
+        model.addAttribute("orders", orderService.showAllOrdersWithPagination(listPaginationData.getPage(), listPaginationData.getPageSize()));
         return "admin/order-list";
     }
 
@@ -146,7 +152,9 @@ public class AdminController {
     @GetMapping("/showUserList")
     public String showUserList(Model model) {
         List<Role> roleList = roleService.findAllRoleByName("USER");
-        model.addAttribute("readers", readerService.findAllReadersByRoles(roleList));
+        listPaginationData.setTotalRecords(readerService.getCountReadersByRole(roleList.get(0)));
+        model.addAttribute("readers", readerService.findAllReadersByRolesWithPagination(roleList,
+                listPaginationData.getPage(), listPaginationData.getPageSize()));
         return "admin/user-list";
     }
 

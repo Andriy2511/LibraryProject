@@ -3,15 +3,18 @@ package com.example.library.service.implementation;
 import com.example.library.model.Reader;
 import com.example.library.model.Role;
 import com.example.library.repository.ReaderRepository;
+import com.example.library.service.IReaderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @Slf4j
-public class ReaderService implements com.example.library.service.IReaderService {
+public class ReaderService implements IReaderService {
     ReaderRepository readerRepository;
 
     @Autowired
@@ -51,4 +54,15 @@ public class ReaderService implements com.example.library.service.IReaderService
 
     @Override
     public List<Reader> findAllReadersByRoles(List<Role> roleList) {return readerRepository.findAllByRolesIn(roleList);}
+
+    @Override
+    public List<Reader> findAllReadersByRolesWithPagination(List<Role> roleList, int numberOfPage, int recordPerPage){
+        Pageable pageable = PageRequest.of(numberOfPage, recordPerPage);
+        return readerRepository.findAllByRolesIn(roleList, pageable);
+    }
+
+    @Override
+    public Long getCountReadersByRole(Role role) {
+        return readerRepository.countReadersByRoles(role);
+    }
 }

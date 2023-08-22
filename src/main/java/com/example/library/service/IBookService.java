@@ -33,11 +33,12 @@ public interface IBookService {
      */
     Book findBookById(Long id);
 
-    List<Book> findBooksWithSorting(String sortedField);
-
-    Page<Book> findBooksWithPagination(int page, int pageSize);
 
     Page<Book> findBooksWithPaginationAndSorting(int page, int pageSize, String sortedField);
 
     Long selectCountOfBooks();
+
+    Long getBooksCount();
+
+    List<Book> findAllBooksWithPagination(int page, int pageSize);
 }

@@ -1,8 +1,7 @@
 package com.example.library.controller;
 
-import com.example.library.DTO.BookDTO;
 import com.example.library.DTO.OrderDTO;
-import com.example.library.DTO.ReaderDTO;
+import com.example.library.component.ListPaginationData;
 import com.example.library.model.Order;
 import com.example.library.model.Reader;
 import com.example.library.service.IBookService;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
@@ -32,18 +30,21 @@ public class UserController {
     private final IReaderService readerService;
     private final IOrderService orderService;
     private final IBookService bookService;
+    private final ListPaginationData listPaginationData;
 
     @Autowired
-    public UserController(ReaderService readerService, IOrderService orderService, IBookService bookService) {
+    public UserController(ReaderService readerService, IOrderService orderService, IBookService bookService, ListPaginationData listPaginationData) {
         this.readerService = readerService;
         this.orderService = orderService;
         this.bookService = bookService;
+        this.listPaginationData = listPaginationData;
     }
 
     @GetMapping("/showReaderOrderList")
     public String showOrderByReader(Model model, Principal principal) {
         Reader reader = readerService.findReaderByName(principal.getName());
-        model.addAttribute("orders", orderService.findOrdersByReader(reader));
+        listPaginationData.setTotalRecords(orderService.getOrdersCountByReader(reader));
+        model.addAttribute("orders", orderService.findOrdersByReaderWithPagination(reader, listPaginationData.getPage(), listPaginationData.getPageSize()));
         return "reader/reader-order-list";
     }
 
