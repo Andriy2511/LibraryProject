@@ -2,9 +2,11 @@ package com.example.library.controller;
 
 import com.example.library.DTO.OrderDTO;
 import com.example.library.component.ListPaginationData;
+import com.example.library.model.Message;
 import com.example.library.model.Order;
 import com.example.library.model.Reader;
 import com.example.library.service.IBookService;
+import com.example.library.service.IMessageService;
 import com.example.library.service.IOrderService;
 import com.example.library.service.IReaderService;
 import com.example.library.service.implementation.ReaderService;
@@ -30,13 +32,15 @@ public class UserController {
     private final IReaderService readerService;
     private final IOrderService orderService;
     private final IBookService bookService;
+    private final IMessageService messageService;
     private final ListPaginationData listPaginationData;
 
     @Autowired
-    public UserController(ReaderService readerService, IOrderService orderService, IBookService bookService, ListPaginationData listPaginationData) {
+    public UserController(ReaderService readerService, IOrderService orderService, IBookService bookService, IMessageService messageService, ListPaginationData listPaginationData) {
         this.readerService = readerService;
         this.orderService = orderService;
         this.bookService = bookService;
+        this.messageService = messageService;
         this.listPaginationData = listPaginationData;
     }
 
@@ -46,6 +50,22 @@ public class UserController {
         listPaginationData.setTotalRecords(orderService.getOrdersCountByReader(reader));
         model.addAttribute("orders", orderService.findOrdersByReaderWithPagination(reader, listPaginationData.getPage(), listPaginationData.getPageSize()));
         return "reader/reader-order-list";
+    }
+
+    @GetMapping("/showReaderMessages")
+    public String showReaderMessages(Model model, Principal principal) {
+        Reader reader = readerService.findReaderByName(principal.getName());
+        listPaginationData.setTotalRecords(messageService.getMessagesCountByReader(reader));
+        model.addAttribute("messages", messageService.findMessagesByReaderWithPagination(reader, listPaginationData.getPage(), listPaginationData.getPageSize()));
+        return "reader/message-page";
+    }
+
+    @GetMapping("/showMessageInfo/{messageId}")
+    public String showMessageInfo(Model model, @PathVariable Long messageId) {
+        Message message = messageService.findMessageById(messageId);
+        log.info(String.valueOf(message));
+        model.addAttribute("message", message);
+        return "reader/message-info";
     }
 
     /**

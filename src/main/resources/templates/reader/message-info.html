@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Message Info</title>
+    <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css}">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Library App</a>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <div class="card-header">
+                    Message Details
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${message.title}">Message Title</h5>
+                    <p class="card-text" th:text="${message.message}">Message Content</p>
+                </div>
+                <div class="card-footer text-muted">
+                    Sent for: <span th:text="${message.reader.username}">Reader Name</span>
+                </div>
+                <a th:href="@{/user/showReaderMessages}" class="btn btn-primary">Back to my messages</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

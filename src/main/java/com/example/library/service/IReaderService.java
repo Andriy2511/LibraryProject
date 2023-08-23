@@ -1,5 +1,6 @@
 package com.example.library.service;
 
+import com.example.library.model.Message;
 import com.example.library.model.Reader;
 import com.example.library.model.Role;
 
@@ -65,5 +66,6 @@ public interface IReaderService {
     List<Reader> findAllReadersByRolesWithPagination(List<Role> roleList, int numberOfPage, int recordPerPage);
 
     Long getCountReadersByRole(Role role);
+
 }
 
