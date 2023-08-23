@@ -34,31 +34,19 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    //hasRole and hasAuthority
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeRequests()
-                //.mvcMatchers("/order/check").hasRole("USER")
+                .antMatchers("/user/**").hasAuthority("USER")
+                .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .anyRequest().permitAll()
+                .and()
+                .formLogin()
+                .loginPage("/login")
                 .and()
         .build();
     }
-//    @Bean
-//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        return http
-//                .authorizeHttpRequests((authorize) -> {
-//                    authorize
-////                            .requestMatchers("/registration", "/login", "/register", "/checkUser", "/authorize", "/testAdminPage").permitAll()
-//
-////                            .requestMatchers(new AntPathRequestMatcher("/authorize")).authenticated()
-////                            .requestMatchers(new AntPathRequestMatcher("/testURL")).hasRole("USER")
-////                            .requestMatchers(new AntPathRequestMatcher("/testURL2")).hasRole("ADMIN")
-////                            .anyRequest().authenticated();
-//                            .anyRequest().permitAll();
-//                }
-//        ).build();
-//    }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
