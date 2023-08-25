@@ -40,4 +40,6 @@ public interface IOrderService {
     List<Order> findOrdersByReaderWithPagination(Reader reader, int page, int pageSize);
 
     List<Order> showAllOrdersWithPagination(int page, int pageSize);
+
+    List<Order> getOverdueOrders();
 }

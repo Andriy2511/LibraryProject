@@ -62,6 +62,7 @@ public class ListPaginationFilter extends OncePerRequestFilter {
         allowedUrlList.add("/admin/showAuthorList");
         allowedUrlList.add("/admin/showBookList");
         allowedUrlList.add("/admin/showOrderList");
+        allowedUrlList.add("/admin/showReaderMessages");
 
         allowedUrlList.add("/user/showReaderOrderList");
         allowedUrlList.add("/user/showReaderMessages");

@@ -57,4 +57,9 @@ public class OrderService implements IOrderService {
         Pageable pageable = PageRequest.of(page, pageSize);
         return orderRepository.findAll(pageable).getContent();
     }
+
+    @Override
+    public List<Order> getOverdueOrders() {
+        return orderRepository.fundOverdueOrders();
+    }
 }

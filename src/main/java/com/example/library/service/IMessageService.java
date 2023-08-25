@@ -12,4 +12,6 @@ public interface IMessageService {
     Long getMessagesCountByReader(Reader reader);
 
     Message findMessageById(Long messageId);
+
+    void saveMessage(Message message);
 }

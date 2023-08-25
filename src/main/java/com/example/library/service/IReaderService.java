@@ -66,6 +66,5 @@ public interface IReaderService {
     List<Reader> findAllReadersByRolesWithPagination(List<Role> roleList, int numberOfPage, int recordPerPage);
 
     Long getCountReadersByRole(Role role);
-
 }
 

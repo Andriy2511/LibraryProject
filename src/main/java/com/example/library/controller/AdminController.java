@@ -17,6 +17,7 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -30,17 +31,19 @@ public class AdminController {
     private final IBookCountService bookCountService;
     private final IOrderService orderService;
     private final IRoleService roleService;
+    private final IMessageService messageService;
     private final ListPaginationData listPaginationData;
 
     @Autowired
     public AdminController(ReaderService readerService, IAuthorService authorService, IBookService bookService,
-                           IBookCountService bookCountService, IOrderService orderService, IRoleService roleService, ListPaginationData listPaginationData) {
+                           IBookCountService bookCountService, IOrderService orderService, IRoleService roleService, IMessageService messageService, ListPaginationData listPaginationData) {
         this.readerService = readerService;
         this.authorService = authorService;
         this.bookService = bookService;
         this.bookCountService = bookCountService;
         this.orderService = orderService;
         this.roleService = roleService;
+        this.messageService = messageService;
         this.listPaginationData = listPaginationData;
     }
 
@@ -171,6 +174,22 @@ public class AdminController {
         log.info(String.valueOf(reader));
         model.addAttribute("reader", reader);
         return "admin/user-info";
+    }
+
+    @GetMapping("/showReaderMessages")
+    public String showReaderMessages(Model model, Principal principal) {
+        Reader reader = readerService.findReaderByName(principal.getName());
+        listPaginationData.setTotalRecords(messageService.getMessagesCountByReader(reader));
+        model.addAttribute("messages", messageService.findMessagesByReaderWithPagination(reader, listPaginationData.getPage(), listPaginationData.getPageSize()));
+        return "admin/message-page";
+    }
+
+    @GetMapping("/showMessageInfo/{messageId}")
+    public String showMessageInfo(Model model, @PathVariable Long messageId) {
+        Message message = messageService.findMessageById(messageId);
+        log.info(String.valueOf(message));
+        model.addAttribute("message", message);
+        return "admin/message-info";
     }
 
     /**

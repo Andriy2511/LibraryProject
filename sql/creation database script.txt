@@ -19,6 +19,7 @@ CREATE TABLE readers_roles (
 
 CREATE TABLE message (
     id SERIAL PRIMARY KEY,
+    title TEXT,
     message TEXT,
     reader_id INTEGER REFERENCES readers(id)
 );

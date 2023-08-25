@@ -35,4 +35,9 @@ public class MessageService implements IMessageService {
     public Message findMessageById(Long messageId) {
         return messageRepository.findById(messageId).get();
     }
+
+    @Override
+    public void saveMessage(Message message){
+        messageRepository.save(message);
+    }
 }
