@@ -11,6 +11,7 @@ import com.example.library.service.IOrderService;
 import com.example.library.service.IReaderService;
 import com.example.library.service.implementation.ReaderService;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -133,6 +134,17 @@ public class UserController {
         order.setReturnDate(getCurrentDate());
         unconfirmedOrders.add(order);
         return "redirect:/catalog/showBookCatalog";
+    }
+
+    @GetMapping("/returnOrder/{id}")
+    public String returnOrder(@PathVariable Long id, @AuthenticationPrincipal Reader reader) {
+        List<Order> orderList = orderService.findOrdersByReader(reader);
+        for (Order userOrder : orderList) {
+            if(userOrder.getId().equals(id) && !userOrder.isReturned())
+                orderService.setOrderStatusReturned(userOrder.getId());
+        }
+
+        return "redirect:/user/showReaderOrderList";
     }
 
     private void removeOrderFromListByBookId(List<Order> orders, Long bookId){

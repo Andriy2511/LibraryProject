@@ -31,6 +31,8 @@
             <th scope="col">Order Date</th>
             <th scope="col">Return Date</th>
             <th scope="col">Is Order Returned</th>
+            <th scope="col">Return my order</th>
+
         </tr>
         </thead>
         <tbody>
@@ -41,6 +43,9 @@
             <td th:text="${order.orderDate}"></td>
             <td th:text="${order.returnDate}"></td>
             <td th:text="${order.returned}"></td>
+            <td>
+                <a th:href="@{/user/returnOrder/{id}(id=${order.id})}">Return this book</a>
+            </td>
         </tr>
         </tbody>
     </table>
