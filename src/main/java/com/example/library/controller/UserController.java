@@ -2,6 +2,7 @@ package com.example.library.controller;
 
 import com.example.library.DTO.OrderDTO;
 import com.example.library.component.ListPaginationData;
+import com.example.library.model.Book;
 import com.example.library.model.Message;
 import com.example.library.model.Order;
 import com.example.library.model.Reader;
@@ -11,7 +12,6 @@ import com.example.library.service.IOrderService;
 import com.example.library.service.IReaderService;
 import com.example.library.service.implementation.ReaderService;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -19,11 +19,14 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/user")
@@ -97,13 +100,19 @@ public class UserController {
         
         removeOrderFromListByBookId(unconfirmedOrders, bookId);
 
-        Order order = new Order();
-        order.setReader(reader);
-        order.setBook(bookService.findBookById(bookId));
-        order.setReturned(false);
-        order.setOrderDate(getCurrentDate());
-        order.setReturnDate(orderDTO.getReturnDate());
-        orderService.saveOrder(order);
+        Book book = bookService.findBookById(bookId);
+        int countOfAvailableBooks = bookService.getCountOfAvailableBooks(book);
+        if(countOfAvailableBooks > 0) {
+            Order order = new Order();
+            order.setReader(reader);
+            order.setBook(book);
+            order.setReturned(false);
+            order.setOrderDate(getCurrentDate());
+            order.setReturnDate(orderDTO.getReturnDate());
+            orderService.saveOrder(order);
+        } else {
+            model.addAttribute("notAvailableBook", "We are sorry, but this book is currently out of stock");
+        }
 
         return "redirect:/user/showOrderConfirmationPage";
     }
@@ -125,14 +134,25 @@ public class UserController {
 
     @PostMapping("/addOrder/{bookId}")
     public String addNewOrder(@SessionAttribute("unconfirmedOrders") List<Order> unconfirmedOrders,
-                              @PathVariable Long bookId, @AuthenticationPrincipal Reader reader) {
-        Order order = new Order();
-        order.setReader(reader);
-        order.setBook(bookService.findBookById(bookId));
-        order.setReturned(false);
-        order.setOrderDate(getCurrentDate());
-        order.setReturnDate(getCurrentDate());
-        unconfirmedOrders.add(order);
+                              @PathVariable Long bookId, @AuthenticationPrincipal Reader reader,
+                              HttpSession session) {
+
+        Book book = bookService.findBookById(bookId);
+        int countOfAvailableBooks = bookService.getCountOfAvailableBooks(book);
+        if(countOfAvailableBooks > 0) {
+            Order order = new Order();
+            order.setReader(reader);
+            order.setBook(book);
+            order.setReturned(false);
+            order.setOrderDate(getCurrentDate());
+            order.setReturnDate(getCurrentDate());
+            unconfirmedOrders.add(order);
+        } else {
+            Map<Long, String> notAvailableBooks = new HashMap<>();
+            notAvailableBooks.put(bookId, "We are sorry, but this book is currently out of stock");
+            session.setAttribute("notAvailableBook", notAvailableBooks);
+        }
+
         return "redirect:/catalog/showBookCatalog";
     }
 

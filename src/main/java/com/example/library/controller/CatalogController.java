@@ -1,5 +1,6 @@
 package com.example.library.controller;
 
+import com.example.library.DTO.BookDTO;
 import com.example.library.component.CatalogPaginationData;
 import com.example.library.model.Author;
 import com.example.library.model.Book;
@@ -13,6 +14,12 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/catalog")
@@ -47,12 +54,32 @@ public class CatalogController {
     }
 
     @GetMapping("/showBookCatalog")
-    public String getBooksWithPaginationAndSorting(Model model, @AuthenticationPrincipal Reader reader,
+    public String getBooksWithPaginationAndSorting(Model model, @AuthenticationPrincipal Reader reader, HttpSession session,
                                                    @RequestParam(name = "sortingField", required = false) String sortingField,
                                                    @RequestParam(name = "page",  required = false) Integer page,
                                                    @RequestParam(name = "pageSize", required = false) Integer recordPerPage) {
         boolean isAdmin = roleService.isUserContainRole(reader, "ADMIN");
 
+        configurePaginationAndSorting(sortingField, page, recordPerPage);
+
+        List<Book> bookList = bookService.
+                findBooksWithPaginationAndSorting(paginationData.getPage(), paginationData.getPageSize(), paginationData.getSortingField())
+                .get().toList();
+        List<BookDTO> bookDTOList = new ArrayList<>();
+
+        setAvailableBookToBookDTOList(bookList, bookDTOList);
+
+        model.addAttribute("bookDTOList", bookDTOList);
+        model.addAttribute("isAdmin", isAdmin);
+        model.addAttribute("paginationData", paginationData);
+
+        processNotAvailableBooks(session, model);
+
+        log.info("Reader: {}; Is reader admin: {}", reader, isAdmin);
+        return "catalog/book-catalog";
+    }
+
+    private void configurePaginationAndSorting(String sortingField, Integer page, Integer recordPerPage) {
         if (sortingField != null) {
             paginationData.setSortingField(sortingField);
         }
@@ -63,14 +90,21 @@ public class CatalogController {
             paginationData.setPageSize(recordPerPage);
             paginationData.setTotalPages(countTotalPages(recordPerPage));
         }
+    }
 
+    private void setAvailableBookToBookDTOList(List<Book> bookList, List<BookDTO> bookDTOList){
+        for (Book book : bookList) {
+            BookDTO bookDTO = BookDTO.mapToBookDTO(book);
+            bookDTO.setAvailableBook(bookService.getCountOfAvailableBooks(book));
+            bookDTOList.add(bookDTO);
+        }
+    }
 
-        model.addAttribute("books", bookService.
-                findBooksWithPaginationAndSorting(paginationData.getPage(), paginationData.getPageSize(), paginationData.getSortingField()));
-        model.addAttribute("isAdmin", isAdmin);
-        model.addAttribute("paginationData", paginationData);
-        log.info("Reader: {}; Is reader admin: {}", reader, isAdmin);
-        return "catalog/book-catalog";
+    private void processNotAvailableBooks(HttpSession session, Model model) {
+        if (session.getAttribute("notAvailableBook") != null) {
+            model.addAttribute("notAvailableBooks", session.getAttribute("notAvailableBook"));
+            session.removeAttribute("notAvailableBook");
+        }
     }
 
     private Integer countTotalPages(Integer recordPerPage){

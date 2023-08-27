@@ -1,5 +1,6 @@
 package com.example.library.service.implementation;
 
+import com.example.library.model.Book;
 import com.example.library.model.Order;
 import com.example.library.model.Reader;
 import com.example.library.repository.OrderRepository;
@@ -68,5 +69,10 @@ public class OrderService implements IOrderService {
     @Transactional
     public void setOrderStatusReturned(Long userOrderId) {
         orderRepository.setStatusReturnedTrueForOrderById(userOrderId);
+    }
+
+    @Override
+    public List<Order> getAllOrdersForBookByReturnedStatus(Book book, Boolean isReturned) {
+        return orderRepository.findAllByBookAndIsReturned(book, isReturned);
     }
 }

@@ -32,6 +32,9 @@
                     <input type="date" class="form-control" id="returnDate" th:field="*{returnDate}">
                     <span th:if="${#fields.hasErrors('returnDate')}" th:errors="*{returnDate}">Error name</span>
                 </td>
+                <td th:if="${notAvailableBook}" class="alert alert-danger">
+                    <p th:text="${notAvailableBook}"></p>
+                </td>
                 <td>
                     <input type="submit" value="Confirm my order" class="btn btn-sm btn-success">
                 </td>

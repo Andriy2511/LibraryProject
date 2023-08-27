@@ -41,4 +41,6 @@ public interface IBookService {
     Long getBooksCount();
 
     List<Book> findAllBooksWithPagination(int page, int pageSize);
+
+    Integer getCountOfAvailableBooks(Book book);
 }

@@ -16,10 +16,12 @@ import java.util.List;
 public class BookService implements IBookService {
 
     private final BookRepository bookRepository;
+    private final OrderService orderService;
 
     @Autowired
-    public BookService(BookRepository bookRepository) {
+    public BookService(BookRepository bookRepository, OrderService orderService) {
         this.bookRepository = bookRepository;
+        this.orderService = orderService;
     }
 
     @Override
@@ -56,5 +58,15 @@ public class BookService implements IBookService {
     public List<Book> findAllBooksWithPagination(int page, int pageSize) {
         Pageable pageable = PageRequest.of(page, pageSize);
         return bookRepository.findAll(pageable).getContent();
+    }
+
+    @Override
+    public Integer getCountOfAvailableBooks(Book book) {
+        int bookCount;
+        if(book.getBookCount() != null && book.getBookCount().getCount() != null && book.getBookCount().getCount() > 0)
+            bookCount = book.getBookCount().getCount() - orderService.getAllOrdersForBookByReturnedStatus(book, false).size();
+        else
+            bookCount = 0;
+        return bookCount;
     }
 }

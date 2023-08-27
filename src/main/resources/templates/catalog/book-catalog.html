@@ -64,10 +64,10 @@
                 </div>
             </div>
             <div class="row">
-                <div th:each="book : ${books}" class="col-md-4">
+                <div th:each="book : ${bookDTOList}" class="col-md-4">
                     <form th:action="@{/user/addOrder/{bookId}(bookId=${book.id})}" method="post">
                         <div class="book-card">
-                            <img th:src="@{~/bookphoto/{photo}(photo=${book.photo})}" class="book-photo" alt="Book Photo">
+                            <img th:src="@{~/bookphoto/{photo}(photo=${book.photoName})}" class="book-photo" alt="Book Photo">
                             <h4><a th:href="@{/catalog/bookInfo/{id}(id=${book.id})}" th:text="${book.title}">Name</a></h4>
                             <p>Authors:</p>
                             <ul class="list-unstyled">
@@ -75,6 +75,10 @@
                                     <a th:href="@{/catalog/authorInfo/{id}(id=${author.id})}" th:text="${author.firstName + ' ' + author.lastName}"></a>
                                 </li>
                             </ul>
+                            <p>Available books: <span th:text = "${book.availableBook}"></span></p>
+                            <div th:if="${notAvailableBooks != null and notAvailableBooks.containsKey(book.id)}" class="alert alert-danger">
+                                <p th:text="${notAvailableBooks.get(book.id)}"></p>
+                            </div>
                         </div>
                         <button type="submit">Subscribe</button>
                     </form>

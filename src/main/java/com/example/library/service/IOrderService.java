@@ -1,5 +1,6 @@
 package com.example.library.service;
 
+import com.example.library.model.Book;
 import com.example.library.model.Order;
 import com.example.library.model.Reader;
 import org.springframework.data.jpa.repository.Modifying;
@@ -46,4 +47,6 @@ public interface IOrderService {
     List<Order> getOverdueOrders();
 
     void setOrderStatusReturned(Long userOrderId);
+
+    List<Order> getAllOrdersForBookByReturnedStatus(Book book, Boolean isReturned);
 }
