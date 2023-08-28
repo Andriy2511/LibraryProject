@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
@@ -18,6 +19,8 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findAllByBookAndIsReturned(Book book, Boolean isReturned);
     List<Order> findAllByReader(Reader reader, Pageable pageable);
     Long countOrdersByReader(Reader reader);
+
+    Optional<Order> findOrderById(Long id);
 
     @Query("SELECT o FROM Order o WHERE o.returnDate < CURRENT_DATE AND o.isReturned = false")
     List<Order> fundOverdueOrders();

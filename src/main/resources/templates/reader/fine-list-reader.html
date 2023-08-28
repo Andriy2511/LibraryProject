@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Fines page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+</head>
+<body>
+<div th:replace="~{header/reader-panel}"></div>
+<div class="container mt-5">
+    <h2>Fines</h2>
+    <div class="pagination">
+        <div class="d-flex flex-column">
+            <div>
+                <form th:action="@{/user/showFineList}" method="get">
+                    <input type="number" id="pageSize" name="pageSize" min="1">
+                    <button type="submit" class="btn btn-primary mb-2">Set records per page</button>
+                </form>
+            </div>
+            <div>
+                <a th:href="@{/user/showFineList(page=${-1})}" class="btn btn-primary" role="button">Previous Page</a>
+                <a th:href="@{/user/showFineList(page=${1})}" class="btn btn-primary" role="button">Next Page</a>
+            </div>
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Book</th>
+            <th scope="col">Return Date</th>
+            <th scope="col">Fine amount</th>
+            <th scope="col">Pay</th>
+            <th scope="col">Is paid</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="fine : ${fines}">
+            <form th:action="@{/user/payFine/{fineId}(fineId=${fine.getOrder().getId()})}" method="post">
+                <td><a th:href="@{/catalog/bookInfo/{id}(id=${fine.order.book.id})}" th:text="${fine.order.book.title}"></a></td>
+                <td th:text="${fine.order.returnDate}"></td>
+                <td th:text="${fine.fineCost}"></td>
+                <td th:text="${fine.paid}"></td>
+                <td><input type="submit" value="Pay my fine" class="btn btn-sm btn-success"></td>
+            </form>
+        </tr>
+        </tbody>
+    </table>
+    <a th:href="@{/user/showOrderConfirmationPage}" class="btn btn-primary">My orders</a>
+</div>
+</body>
+</html>

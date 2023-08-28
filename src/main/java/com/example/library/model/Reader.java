@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @ToString
+@EqualsAndHashCode(of = {"id", "username", "email"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity

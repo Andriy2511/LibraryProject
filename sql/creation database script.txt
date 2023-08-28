@@ -58,20 +58,8 @@ CREATE TABLE orders (
     is_returned BOOLEAN
 );
 
-CREATE TABLE fines_amount (
-    id SERIAL PRIMARY KEY,
-    amount NUMERIC
-);
-
 CREATE TABLE fines (
-    id SERIAL PRIMARY KEY,
-    amount_id INTEGER REFERENCES fines_amount(id),
+    order_id INTEGER REFERENCES orders(id),
     fine_cost NUMERIC,
-    is_active BOOLEAN,
     is_paid BOOLEAN
-);
-
-CREATE TABLE orders_fines (
-    fine_id INTEGER REFERENCES fines(id),
-    order_id INTEGER REFERENCES orders(id)
 );

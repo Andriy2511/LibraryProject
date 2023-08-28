@@ -2,14 +2,8 @@ package com.example.library.controller;
 
 import com.example.library.DTO.OrderDTO;
 import com.example.library.component.ListPaginationData;
-import com.example.library.model.Book;
-import com.example.library.model.Message;
-import com.example.library.model.Order;
-import com.example.library.model.Reader;
-import com.example.library.service.IBookService;
-import com.example.library.service.IMessageService;
-import com.example.library.service.IOrderService;
-import com.example.library.service.IReaderService;
+import com.example.library.model.*;
+import com.example.library.service.*;
 import com.example.library.service.implementation.ReaderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,14 +31,16 @@ public class UserController {
     private final IOrderService orderService;
     private final IBookService bookService;
     private final IMessageService messageService;
+    private final IFineService fineService;
     private final ListPaginationData listPaginationData;
 
     @Autowired
-    public UserController(ReaderService readerService, IOrderService orderService, IBookService bookService, IMessageService messageService, ListPaginationData listPaginationData) {
+    public UserController(ReaderService readerService, IOrderService orderService, IBookService bookService, IMessageService messageService, IFineService fineService, ListPaginationData listPaginationData) {
         this.readerService = readerService;
         this.orderService = orderService;
         this.bookService = bookService;
         this.messageService = messageService;
+        this.fineService = fineService;
         this.listPaginationData = listPaginationData;
     }
 
@@ -165,6 +161,24 @@ public class UserController {
         }
 
         return "redirect:/user/showReaderOrderList";
+    }
+
+    @GetMapping("/showFineList")
+    public String showFineList(Model model, @AuthenticationPrincipal Reader reader) {
+        listPaginationData.setTotalRecords(fineService.getFinesCountByReader(reader));
+        model.addAttribute("fines",
+                fineService.findAllFinesByReaderWithPagination(listPaginationData.getPage(), listPaginationData.getPageSize(), reader.getId()));
+        return "reader/fine-list-reader";
+    }
+
+    @PostMapping("/payFine/{fineId}")
+    public String payFine(@AuthenticationPrincipal Reader reader, @PathVariable Long fineId) {
+        Fine fine = fineService.getFineById(fineId);
+        if(fine.getOrder().getReader().equals(reader) && !fine.isPaid()){
+            fine.setPaid(true);
+            fineService.updateFine(fine);
+        }
+        return "redirect:/user/showFineList";
     }
 
     private void removeOrderFromListByBookId(List<Order> orders, Long bookId){

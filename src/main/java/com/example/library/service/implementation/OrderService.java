@@ -75,4 +75,9 @@ public class OrderService implements IOrderService {
     public List<Order> getAllOrdersForBookByReturnedStatus(Book book, Boolean isReturned) {
         return orderRepository.findAllByBookAndIsReturned(book, isReturned);
     }
+
+    @Override
+    public Order getOrderById(Long orderId) {
+        return orderRepository.findOrderById(orderId).get();
+    }
 }

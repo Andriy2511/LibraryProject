@@ -29,9 +29,10 @@ public class Order {
     private Date returnDate;
     private boolean isReturned;
 
-    @ManyToMany(mappedBy = "orders")
+    @OneToOne(mappedBy = "order", cascade = CascadeType.REMOVE)
+    @PrimaryKeyJoinColumn
     @ToString.Exclude
-    private List<Fine> fines;
+    private Fine fine;
 
     @Override
     public String toString() {

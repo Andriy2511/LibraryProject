@@ -49,4 +49,6 @@ public interface IOrderService {
     void setOrderStatusReturned(Long userOrderId);
 
     List<Order> getAllOrdersForBookByReturnedStatus(Book book, Boolean isReturned);
+
+    Order getOrderById(Long orderId);
 }

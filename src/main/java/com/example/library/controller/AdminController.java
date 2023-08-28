@@ -32,11 +32,12 @@ public class AdminController {
     private final IOrderService orderService;
     private final IRoleService roleService;
     private final IMessageService messageService;
+    private final IFineService fineService;
     private final ListPaginationData listPaginationData;
 
     @Autowired
     public AdminController(ReaderService readerService, IAuthorService authorService, IBookService bookService,
-                           IBookCountService bookCountService, IOrderService orderService, IRoleService roleService, IMessageService messageService, ListPaginationData listPaginationData) {
+                           IBookCountService bookCountService, IOrderService orderService, IRoleService roleService, IMessageService messageService, IFineService fineService, ListPaginationData listPaginationData) {
         this.readerService = readerService;
         this.authorService = authorService;
         this.bookService = bookService;
@@ -44,6 +45,7 @@ public class AdminController {
         this.orderService = orderService;
         this.roleService = roleService;
         this.messageService = messageService;
+        this.fineService = fineService;
         this.listPaginationData = listPaginationData;
     }
 
@@ -190,6 +192,13 @@ public class AdminController {
         log.info(String.valueOf(message));
         model.addAttribute("message", message);
         return "admin/message-info";
+    }
+
+    @GetMapping("/showFineList")
+    public String showFineList(Model model) {
+        listPaginationData.setTotalRecords(fineService.getFinesCount());
+        model.addAttribute("fines", fineService.findAllFinesWithPagination(listPaginationData.getPage(), listPaginationData.getPageSize()));
+        return "admin/fine-list-admin";
     }
 
     /**

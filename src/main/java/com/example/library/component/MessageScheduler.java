@@ -3,7 +3,6 @@ package com.example.library.component;
 import com.example.library.model.Message;
 import com.example.library.model.Order;
 import com.example.library.model.Reader;
-import com.example.library.model.Role;
 import com.example.library.service.IMessageService;
 import com.example.library.service.IOrderService;
 import com.example.library.service.IReaderService;
@@ -41,7 +40,7 @@ public class MessageScheduler {
      */
     // 0 0 12 * * * - 12:00
     //crontab.guru
-    @Scheduled(cron = "0 39 18 * * *")
+    @Scheduled(cron = "0 0 12 * * *")
     public void checkOverdueBooksAndSendMessages() {
         List<Order> overdueOrders = orderService.getOverdueOrders();
         Map<Reader, List<Order>> readerOrdersMap = formMapFromList(overdueOrders);

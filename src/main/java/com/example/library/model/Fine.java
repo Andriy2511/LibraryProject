@@ -14,24 +14,17 @@ import java.util.List;
 @Entity
 @Table(name = "fines")
 public class Fine {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "order_id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name="amount_id")
-    private FineAmount amount;
+    @MapsId
+    @OneToOne
+    @JoinColumn(name = "order_id")
+    @ToString.Exclude
+    private Order order;
 
     private Double fineCost;
-    private boolean isActive;
     private boolean isPaid;
-
-    @ManyToMany
-    @JoinTable(
-            name = "orders_fines",
-            joinColumns = @JoinColumn(name = "fine_id"),
-            inverseJoinColumns = @JoinColumn(name = "order_id")
-    )
-    @ToString.Exclude
-    private List<Order> orders;
 }
