@@ -26,7 +26,16 @@ public class ListPaginationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        changePageAndPageSizeForList(request);
+        filterChain.doFilter(request, response);
+    }
 
+    /**
+     * The method captures the URL from all requests, and if this URL is contained in the allowedUrlList,
+     * the method retrieves the 'page' and 'pageSize' parameters and modifies them if they are not null.
+     * @param request The object with type HttpServletRequest
+     */
+    private void changePageAndPageSizeForList(HttpServletRequest request){
         String requestPath = request.getRequestURI();
         if(getAllowedUrlList().contains(requestPath)) {
             String paramPage = request.getParameter("page");
@@ -53,10 +62,12 @@ public class ListPaginationFilter extends OncePerRequestFilter {
             }
             setLastPageIfPageBiggerThanTotalPage();
         }
-
-        filterChain.doFilter(request, response);
     }
 
+    /**
+     * Defines the specific path that will capture the 'page' and 'pageSize' parameters.
+     * @return The list with allowed URL
+     */
     private List<String> getAllowedUrlList(){
         allowedUrlList.add("/admin/showUserList");
         allowedUrlList.add("/admin/showAuthorList");

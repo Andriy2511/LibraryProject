@@ -4,7 +4,6 @@ import com.example.library.model.Fine;
 import com.example.library.model.Order;
 import com.example.library.service.IFineService;
 import com.example.library.service.IOrderService;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -12,6 +11,9 @@ import org.springframework.stereotype.Component;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+/**
+ * A component responsible for scheduling tasks related to fines for overdue book orders.
+ */
 @Component
 public class FineScheduler {
 
@@ -24,7 +26,7 @@ public class FineScheduler {
         this.orderService = orderService;
     }
 
-    @Scheduled(cron = "0 44 20 * * *")
+    @Scheduled(cron = "0 0 13 * * *")
     public void checkOverdueBooksAndConfirmFine() {
         List<Order> overdueOrders = orderService.getOverdueOrders();
         if (!overdueOrders.isEmpty()) {

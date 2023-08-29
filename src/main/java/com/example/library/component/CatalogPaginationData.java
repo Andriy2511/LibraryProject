@@ -3,6 +3,9 @@ package com.example.library.component;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
+/**
+ * This component sets default values for catalog pagination properties
+ */
 @Component
 @Data
 public class CatalogPaginationData {

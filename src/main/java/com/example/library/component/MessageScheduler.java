@@ -16,6 +16,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+/**
+ * A component responsible for scheduling tasks related to sending messages about overdue book orders.
+ * Uses Spring's scheduling features to periodically check for overdue orders and send notifications.
+ */
 @Component
 @EnableScheduling
 public class MessageScheduler {
