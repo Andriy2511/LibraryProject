@@ -26,5 +26,12 @@ public interface IRoleService {
      */
     List<Role> findAllRoleByName(String name);
 
+    /**
+     * Checks if a specific reader contains a given role.
+     *
+     * @param reader   The reader for whom to check the role.
+     * @param roleName The name of the role to check.
+     * @return {@code true} if the reader contains the specified role, {@code false} otherwise.
+     */
     boolean isUserContainRole(Reader reader, String roleName);
 }

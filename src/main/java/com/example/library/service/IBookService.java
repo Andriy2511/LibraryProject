@@ -34,13 +34,43 @@ public interface IBookService {
     Book findBookById(Long id);
 
 
+    /**
+     * Retrieves a paginated and sorted list of books by sorted field.
+     *
+     * @param page        The page number to retrieve.
+     * @param pageSize    The maximum number of books to include on each page.
+     * @param sortedField The field by which the books should be sorted.
+     * @return A Page object containing a list of Book items within the specified page and page size.
+     */
     Page<Book> findBooksWithPaginationAndSorting(int page, int pageSize, String sortedField);
 
+    /**
+     * Retrieves the total count of all books in the database.
+     *
+     * @return The total number of books.
+     */
     Long selectCountOfBooks();
 
+    /**
+     * Retrieves the total count of all books in the database.
+     *
+     * @return The total number of books.
+     */
     Long getBooksCount();
 
+    /**
+     * Retrieves the total count of all books in the database.
+     *
+     * @return The total number of books.
+     * @deprecated Use {@link #selectCountOfBooks()} instead.
+     */
     List<Book> findAllBooksWithPagination(int page, int pageSize);
 
+    /**
+     * Retrieves the count of available books.
+     *
+     * @param book The book for which to count available copies.
+     * @return The count of available copies for the given book.
+     */
     Integer getCountOfAvailableBooks(Book book);
 }

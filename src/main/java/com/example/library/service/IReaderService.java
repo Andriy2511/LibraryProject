@@ -1,6 +1,5 @@
 package com.example.library.service;
 
-import com.example.library.model.Message;
 import com.example.library.model.Reader;
 import com.example.library.model.Role;
 
@@ -63,8 +62,22 @@ public interface IReaderService {
      */
     List<Reader> findAllReadersByRoles(List<Role> roleList);
 
-    List<Reader> findAllReadersByRolesWithPagination(List<Role> roleList, int numberOfPage, int recordPerPage);
+    /**
+     * Retrieves a paginated list of readers who possess any of the specified roles.
+     *
+     * @param roleList        The list of roles to filter readers by.
+     * @param numberOfPage    The page number (starting from 1) to retrieve.
+     * @param recordsPerPage  The maximum number of readers to include on each page.
+     * @return A list of Reader objects who have any of the specified roles, within the specified page and records per page.
+     */
+    List<Reader> findAllReadersByRolesWithPagination(List<Role> roleList, int numberOfPage, int recordsPerPage);
 
+    /**
+     * Retrieves the count of readers who possess a specific role.
+     *
+     * @param role The role for which to count readers.
+     * @return The total number of readers who have the specified role.
+     */
     Long getCountReadersByRole(Role role);
 }
 

@@ -40,7 +40,19 @@ public interface IAuthorService {
      */
     Author findAuthorById(Long id);
 
+    /**
+     * Retrieves the total count of authors in the system.
+     *
+     * @return The total number of authors.
+     */
     Long getAuthorsCount();
 
+    /**
+     * Retrieves a list of authors with pagination support.
+     *
+     * @param page The page number to retrieve.
+     * @param pageSize The maximum number of authors to include on each page.
+     * @return A list of Author objects within the specified page and page size.
+     */
     List<Author> findAllAuthorsWithPagination(int page, int pageSize);
 }
