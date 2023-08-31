@@ -12,7 +12,7 @@ The librarian gives the reader a book on a subscription or to the reading room. 
 And also:
 1) for reader:
 - list of books on the subscription and date of possible return (if the date is overdue, the amount of the fine is displayed);
-2) system administrator:
+2) for system administrator:
 - adding / deleting a book, editing information about the book;
 - create / delete librarian;
 - blocking / unblocking the user.
